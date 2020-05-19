@@ -6,32 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
 
-    Button buttonCreateAccount;
+    TextView txtCreateAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        buttonCreateAccount = findViewById(R.id.btnCreateAccount);
-        buttonCreateAccount.setOnClickListener(new View.OnClickListener() {
+        //Christian har skrivit den här metoden
+        txtCreateAccount = findViewById(R.id.txtCreateAccount);
+        txtCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, CreateAccount.class));
             }
         });
-
-
-//        buttonCreateAccount.setOnClickListener(new View().OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(Login.this, CreateAccount.class));
-//            }
-//        });
-
     }
 
     // Trycker ner programmet istället för att gå till splashscreen
