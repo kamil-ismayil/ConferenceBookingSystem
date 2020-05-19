@@ -17,12 +17,23 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Button start = (Button)findViewById(R.id.btnLogin);
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Login.this, Search.class));
+            }
+        });
+
         //Christian har skrivit den här metoden
         txtCreateAccount = findViewById(R.id.txtCreateAccount);
         txtCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, CreateAccount.class));
+
             }
         });
     }
