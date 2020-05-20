@@ -142,9 +142,9 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-//            else{
-//                Toast.makeText(Login.this,"Wrong username.Please try again..",Toast.LENGTH_SHORT).show();
-//            }
+            else{
+                Toast.makeText(Login.this,"Wrong username.Please try again..",Toast.LENGTH_SHORT).show();
+            }
 
         }
     }
