@@ -57,8 +57,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/txtEmail"
-            android:hint="Email"
+            android:id="@+id/txtUserNamee"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"
@@ -66,6 +65,7 @@
             android:layout_marginTop="70dp"
             android:layout_marginRight="50dp"
             android:ems="10"
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:text="" />
 

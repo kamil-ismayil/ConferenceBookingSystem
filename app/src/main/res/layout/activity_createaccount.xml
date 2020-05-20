@@ -31,13 +31,13 @@
                 app:srcCompat="@drawable/logo_timetomeet" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnCreate"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="570dp"
                 android:background="#5BD744"
-                android:text="Button" />
+                android:text="Create" />
 
         </LinearLayout>
 
@@ -154,7 +154,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/txtName"
+                    android:id="@+id/txtFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoText="false"
@@ -171,7 +171,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/txtUsername"
+                    android:id="@+id/txtUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -189,7 +189,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/txtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -197,7 +197,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/txtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -205,7 +205,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/txtCompany"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -213,7 +213,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText7"
+                    android:id="@+id/txtOrgno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -221,7 +221,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText8"
+                    android:id="@+id/txtStreet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -229,7 +229,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText9"
+                    android:id="@+id/txtZipcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -237,7 +237,7 @@
                     android:paddingTop="15dp" />
 
                 <EditText
-                    android:id="@+id/editText11"
+                    android:id="@+id/txtCity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
