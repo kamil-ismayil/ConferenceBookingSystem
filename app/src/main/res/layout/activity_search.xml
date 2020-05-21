@@ -10,7 +10,9 @@
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
         android:background="#3C423B"
+        app:layout_constraintBottom_toTopOf="@+id/CitySearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +31,7 @@
 
     <Spinner
         android:id="@+id/CitySearch"
-        android:layout_width="148dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:autofillHints="City"
@@ -42,7 +44,7 @@
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="#5BD744"
         android:text="@android:string/search_go"
         app:layout_constraintBottom_toTopOf="@+id/resultWindow"
@@ -52,19 +54,24 @@
 
     <EditText
         android:id="@+id/People"
-        android:layout_width="100dp"
+        android:layout_width="60dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="5dp"
         android:ems="10"
         android:hint="People"
-        android:textColor="@android:color/black"
         android:inputType="number"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/SearchButton"
+        app:layout_constraintEnd_toStartOf="@+id/Date"
         app:layout_constraintStart_toEndOf="@+id/CitySearch"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Date"
-        android:layout_width="160dp"
+        android:layout_width="120dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
@@ -80,8 +87,8 @@
     <LinearLayout
         android:id="@+id/resultWindow"
         android:layout_width="wrap_content"
-        android:layout_height="500dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="470dp"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +98,7 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="60dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_launcher_background" />
