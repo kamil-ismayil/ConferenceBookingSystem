@@ -47,7 +47,7 @@ public class Search extends AppCompatActivity {
 
                 DatePickerDialog DatePicker = new DatePickerDialog(
                         Search.this,
-                        android.R.style.Theme_Holo_Light_Dialog, DateListener, year, month, day);
+                        android.R.style.Theme_Holo_Panel, DateListener, year, month, day);
                 DatePicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 DatePicker.show();
 

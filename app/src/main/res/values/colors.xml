@@ -2,6 +2,9 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="TimeToMeetGreen">#5BD744</color>
+    <color name="colorAccent">#5BD744</color>
+    <color name="Green">#5BD744</color>
+    <color name="Grey">#3C423B</color>
+    <color name="Lightgrey">#EDF0EC</color>
+    <color name="White">#FFFFFF</color>
 </resources>
