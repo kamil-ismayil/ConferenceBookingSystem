@@ -42,6 +42,8 @@ public class CreateAccount extends AppCompatActivity {
         setContentView(R.layout.activity_createaccount);
 
         buttonCreate = findViewById(R.id.btnCreate);
+        buttonCreate.setEnabled(false);
+
         final EditText passwordField = findViewById(R.id.txtPassword);
         passwordField.setText(generateToken(8));
         userPassword = getSharedPreferences("customerPassword",MODE_PRIVATE);
@@ -65,6 +67,9 @@ public class CreateAccount extends AppCompatActivity {
         asyncCreateUserAPI = new CreateAccountApi();
 
 
+
+createButtonLock();
+
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +79,25 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
     }
+
+    // Nusret
+    // Låser create knappen om alla fält inte är ifyllda
+    public void createButtonLock() {
+        if (!firstName.getText().equals("") && !lastName.getText().equals("") &&
+                !userName.getText().equals("") && !password.getText().equals("") &&
+                !email.getText().equals("") && !phone.getText().equals("") &&
+                !company.getText().equals("") && !orgNo.getText().equals("") &&
+                !street.getText().equals("") && !zipCode.getText().equals("") &&
+                !city.getText().equals("")){
+
+            buttonCreate.setEnabled(true);
+        }
+        else {
+            buttonCreate.setEnabled(false);
+        }
+    }
+
+
 
     private String jsonCreateUser(){
 

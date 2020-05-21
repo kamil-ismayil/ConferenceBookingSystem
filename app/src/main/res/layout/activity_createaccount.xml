@@ -191,10 +191,11 @@
 
                 <EditText
                     android:id="@+id/txtEmail"
+                    android:digits= "abcdefghijklmnopqrstuvwxyzåäö1234567890@.-_"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="textEmailAddress"
                     android:paddingTop="15dp" />
 
                 <EditText
@@ -202,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:paddingTop="15dp" />
 
                 <EditText
@@ -218,7 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:paddingTop="15dp" />
 
                 <EditText
@@ -226,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="textPostalAddress"
                     android:paddingTop="15dp" />
 
                 <EditText
@@ -234,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:paddingTop="15dp" />
 
                 <EditText

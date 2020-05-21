@@ -35,6 +35,8 @@ public class Search extends AppCompatActivity {
 
         Date = (TextView) findViewById(R.id.Date);
 
+        // Nusret
+        // https://www.youtube.com/watch?v=hwe1abDO2Ag
         Date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +53,6 @@ public class Search extends AppCompatActivity {
 
             }
         });
-
         DateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -61,6 +62,7 @@ public class Search extends AppCompatActivity {
             }
         };
 
+        // Nusret
         // https://android--code.blogspot.com/2015/08/android-spinner-hint.html
         final Spinner spinner = (Spinner) findViewById(R.id.CitySearch);
 

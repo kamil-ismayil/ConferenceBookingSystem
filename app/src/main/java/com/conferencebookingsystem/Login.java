@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class Login extends AppCompatActivity {
 
     TextView txtCreateAccount;
+    Button btnLogin;
 
 
     private EditText txtPassword;
@@ -38,10 +39,17 @@ public class Login extends AppCompatActivity {
         SharedPreferences userPassword = getSharedPreferences("customerPassword",MODE_PRIVATE);
 
         Button start = (Button)findViewById(R.id.btnLogin);
+
+        start.setEnabled(false);
+
         final String password = userPassword.getString("password",null);
+
+        // disablar password för användaren
+        txtPassword.setEnabled(false);
 
         if(password != null){ txtPassword.setText(password); }
 
+        startButtonLock();
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,11 +69,25 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    // Nusret
+    // Låser upp startknappen när username och password är ifyllt
+    public void startButtonLock() {
+        btnLogin = findViewById(R.id.btnLogin);
+
+        if (!txtUsername.getText().equals("") && !txtPassword.getText().equals("")){
+
+            btnLogin.setEnabled(true);
+        }
+        else {
+            btnLogin.setEnabled(false);
+        }
+    }
+    // Nusret
     // Trycker ner programmet istället för att gå till splashscreen
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
-        //super.onBackPressed();
+        //normal back button: super.onBackPressed();
     }
 
     private String jsonUsernamePassword(){
