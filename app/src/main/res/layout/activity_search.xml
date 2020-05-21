@@ -42,29 +42,13 @@
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:background="#5BD744"
         android:text="@android:string/search_go"
+        app:layout_constraintBottom_toTopOf="@+id/resultWindow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/People" />
-
-    <ScrollView
-        android:id="@+id/SearchResult"
-        android:layout_width="409dp"
-        android:layout_height="550dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SearchButton"
-        app:layout_constraintVertical_bias="0.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 
     <EditText
         android:id="@+id/People"
@@ -73,19 +57,62 @@
         android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="People"
+        android:textColor="@android:color/black"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/CitySearch"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-    <EditText
+    <TextView
         android:id="@+id/Date"
         android:layout_width="160dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
+        android:clickable="true"
         android:ems="10"
-        android:hint="Date: dd/mm/yyyy"
-        android:inputType="date"
+        android:hint="Date"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/People"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <LinearLayout
+        android:id="@+id/resultWindow"
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SearchButton">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="Book this room for only 10 SEK!"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="#5BD744"
+            android:text="Book"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
