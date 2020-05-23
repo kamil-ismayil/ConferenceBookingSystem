@@ -44,10 +44,8 @@
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="15dp"
         android:background="#5BD744"
         android:text="@android:string/search_go"
-        app:layout_constraintBottom_toTopOf="@+id/resultWindow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/People" />
@@ -84,42 +82,124 @@
         app:layout_constraintStart_toEndOf="@+id/People"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-    <LinearLayout
-        android:id="@+id/resultWindow"
-        android:layout_width="wrap_content"
-        android:layout_height="470dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="450dp"
+        android:windowSoftInputMode="adjustPan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchButton">
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="70dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_launcher_background" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="Book this room for only 10 SEK!"
-            android:textColor="@android:color/black" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="#5BD744"
-            android:text="Book"
-            android:textColor="@android:color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView20"
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        app:srcCompat="@drawable/ic_launcher_background" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <ScrollView
+                        android:layout_width="160dp"
+                        android:layout_height="100dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView27"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sankt Jörgen Park Resort Knipplekullen 8, Göteborg Sankt Jörgen Park är en unik destination på flera sätt, inte minst för er som ska planera för en konferens. Vi är ett designhotell med spa, golfbana och flera fantastiska restauranger några få kilometer från Göteborg. Men tack vare vår Sport Club är vi äv ..." />
+                        </LinearLayout>
+                    </ScrollView>
+
+                    <TextView
+                        android:id="@+id/textView28"
+                        android:layout_width="65dp"
+                        android:layout_height="60dp"
+                        android:text="300kr" />
+
+                    <Button
+                        android:id="@+id/button8"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:text="Button" />
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView19"
+                        android:layout_width="100dp"
+                        android:layout_height="120dp"
+                        app:srcCompat="@drawable/ic_launcher_background" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ScrollView
+                        android:layout_width="230dp"
+                        android:layout_height="100dp">
+
+                        <TextView
+                            android:id="@+id/textView244"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sankt Jörgen Park Resort Knipplekullen 8, Göteborg Sankt Jörgen Park är en unik destination på flera sätt, inte minst för er som ska planera för en konferens. Vi är ett designhotell med spa, golfbana och flera fantastiska restauranger några få kilometer från Göteborg. Men tack vare vår Sport Club är vi äv ..." />
+                    </ScrollView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView255"
+                            android:layout_width="65dp"
+                            android:layout_height="64dp"
+                            android:text="3000 kr" />
+
+                        <Button
+                            android:id="@+id/button777"
+                            android:layout_width="70dp"
+                            android:layout_height="40dp"
+                            android:text="Book" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
