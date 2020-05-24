@@ -1,4 +1,4 @@
-package com.conferencebookingsystem;
+package com.conferencebookingsystem.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.conferencebookingsystem.R;
 
 import org.json.JSONObject;
 
@@ -96,8 +97,6 @@ createButtonLock();
             buttonCreate.setEnabled(false);
         }
     }
-
-
 
     private String jsonCreateUser(){
 

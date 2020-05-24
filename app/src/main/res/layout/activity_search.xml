@@ -83,6 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="409dp"
         android:layout_height="450dp"
         android:windowSoftInputMode="adjustPan"
@@ -92,114 +93,9 @@
         app:layout_constraintTop_toBottomOf="@+id/SearchButton">
 
         <TableLayout
+            android:id="@+id/tableLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageView20"
-                        android:layout_width="100dp"
-                        android:layout_height="120dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
-
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content" />
-
-                    <ScrollView
-                        android:layout_width="160dp"
-                        android:layout_height="100dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/textView27"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sankt Jörgen Park Resort Knipplekullen 8, Göteborg Sankt Jörgen Park är en unik destination på flera sätt, inte minst för er som ska planera för en konferens. Vi är ett designhotell med spa, golfbana och flera fantastiska restauranger några få kilometer från Göteborg. Men tack vare vår Sport Club är vi äv ..." />
-                        </LinearLayout>
-                    </ScrollView>
-
-                    <TextView
-                        android:id="@+id/textView28"
-                        android:layout_width="65dp"
-                        android:layout_height="60dp"
-                        android:text="300kr" />
-
-                    <Button
-                        android:id="@+id/button8"
-                        android:layout_width="70dp"
-                        android:layout_height="40dp"
-                        android:text="Button" />
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageView19"
-                        android:layout_width="100dp"
-                        android:layout_height="120dp"
-                        app:srcCompat="@drawable/ic_launcher_background" />
-
-                    <Space
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <ScrollView
-                        android:layout_width="230dp"
-                        android:layout_height="100dp">
-
-                        <TextView
-                            android:id="@+id/textView244"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Sankt Jörgen Park Resort Knipplekullen 8, Göteborg Sankt Jörgen Park är en unik destination på flera sätt, inte minst för er som ska planera för en konferens. Vi är ett designhotell med spa, golfbana och flera fantastiska restauranger några få kilometer från Göteborg. Men tack vare vår Sport Club är vi äv ..." />
-                    </ScrollView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView255"
-                            android:layout_width="65dp"
-                            android:layout_height="64dp"
-                            android:text="3000 kr" />
-
-                        <Button
-                            android:id="@+id/button777"
-                            android:layout_width="70dp"
-                            android:layout_height="40dp"
-                            android:text="Book" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </TableRow>
-
-        </TableLayout>
+            android:layout_height="wrap_content"/>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

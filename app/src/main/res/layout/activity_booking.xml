@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDF0EC"
-    tools:context=".Booking">
+    tools:context=".Activities.Booking">
 
     <LinearLayout
         android:id="@+id/linearLayout2"

@@ -1,8 +1,10 @@
-package com.conferencebookingsystem;
+package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.conferencebookingsystem.R;
 
 public class Booking extends AppCompatActivity {
 

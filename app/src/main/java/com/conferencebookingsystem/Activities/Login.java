@@ -1,4 +1,4 @@
-package com.conferencebookingsystem;
+package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.conferencebookingsystem.API.CityList;
+import com.conferencebookingsystem.R;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,6 +46,16 @@ public class Login extends AppCompatActivity {
         start.setEnabled(false);
 
         final String password = userPassword.getString("password",null);
+
+        CityList city = new CityList("https://dev-be.timetomeet.se/service/rest/city/",this);
+        city.getCityAPI();
+
+//        Foodbeverage foodbeverage = new Foodbeverage("https://dev-be.timetomeet.se/service/rest/foodbeverage/",this);
+//        foodbeverage.getListofFoodbeverage();
+
+//        Technology technology = new Technology("https://dev-be.timetomeet.se/service/rest/technology/",this);
+//        technology.getTechnologyAPI();
+
 
         // disablar password för användaren
         txtPassword.setEnabled(false);
@@ -115,7 +128,7 @@ public class Login extends AppCompatActivity {
             BufferedReader reader=null;
 
             try {
-                URL url = new URL(requestData[0]);  // url
+                URL url = new URL(requestData[0]);  // https://dev-be.timetomeet.se/service/rest/api-token-auth/
 
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
