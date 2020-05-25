@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -309,15 +312,44 @@ public class Search extends AppCompatActivity {
                     linearLayoutV.setOrientation(LinearLayout.VERTICAL);
 
                     imageView = new ImageView(getBaseContext());
+                    imageView.setMaxWidth(200);
+                    imageView.setMaxHeight(200);
+
                     textViewPrice = new TextView(getBaseContext());
-                    textViewPrice.setWidth(50);
+                    textViewPrice.setWidth(100);
+                    textViewPrice.setHeight(40);
+                    textViewPrice.setTextColor(Color.BLACK);
+                    //textViewPrice.setText(Typeface.BOLD);
 
                     textViewDescription = new TextView(getBaseContext());
-                    textViewDescription.setWidth(250);
+                    textViewDescription.setWidth(800);
+                    textViewDescription.setHeight(300);
+                    textViewDescription.setTextColor(Color.BLACK);
+
                     buttonViewPlant = new Button(getBaseContext());
+                    buttonViewPlant.setWidth(80);
+                    buttonViewPlant.setHeight(40);
+
+                    // Ändrar storkejen på knapparna av någon anledning
+                    // buttonViewPlant.setBackgroundColor(getResources().getColor(R.color.Green));
+
                     scrollView = new ScrollView(getBaseContext());
 
+
                     tableLayout.addView(tableRow);
+                    TableLayout.LayoutParams tableRowParams=
+                            new TableLayout.LayoutParams
+                                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+                    int leftMargin=2;
+                    int topMargin=20;
+                    int rightMargin=2;
+                    int bottomMargin=30;
+
+                    tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+                    tableRow.setLayoutParams(tableRowParams);
+
                     tableRow.addView(linearLayoutH);
                         linearLayoutH.addView(imageView);
                         a1++;
@@ -340,7 +372,7 @@ public class Search extends AppCompatActivity {
                                 linearLayoutV.removeView(buttonViewPlant);
                             }
                             linearLayoutV.addView(buttonViewPlant);
-                            buttonViewPlant.setText("View");
+                            buttonViewPlant.setText("Book");
                     a1=0; a2=0;
 
                 }

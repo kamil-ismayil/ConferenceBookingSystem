@@ -10,9 +10,7 @@
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="5dp"
         android:background="#3C423B"
-        app:layout_constraintBottom_toTopOf="@+id/CitySearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,63 +27,68 @@
         app:srcCompat="@drawable/logo_timetomeet"
         tools:srcCompat="@drawable/logo_timetomeet" />
 
-    <Spinner
-        android:id="@+id/CitySearch"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:autofillHints="City"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5">
+
+        <Spinner
+            android:id="@+id/CitySearch"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:autofillHints="City" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/People"
+            android:layout_width="65dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:ems="10"
+            android:hint="People"
+            android:inputType="number"
+            android:textColor="@android:color/black" />
+
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/Date"
+            android:layout_width="115dp"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:ems="10"
+            android:hint="Date"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </TableRow>
 
 
     <Button
         android:id="@+id/SearchButton"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="#5BD744"
         android:text="@android:string/search_go"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/People" />
-
-    <EditText
-        android:id="@+id/People"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="5dp"
-        android:ems="10"
-        android:hint="People"
-        android:inputType="number"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@+id/SearchButton"
-        app:layout_constraintEnd_toStartOf="@+id/Date"
-        app:layout_constraintStart_toEndOf="@+id/CitySearch"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/Date"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:clickable="true"
-        android:ems="10"
-        android:hint="Date"
-        android:text=""
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/People"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        app:layout_constraintTop_toBottomOf="@+id/tableRow2" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="409dp"
         android:layout_height="450dp"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
         android:windowSoftInputMode="adjustPan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +98,7 @@
         <TableLayout
             android:id="@+id/tableLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
