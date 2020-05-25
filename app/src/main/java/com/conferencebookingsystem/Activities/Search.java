@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -327,6 +328,7 @@ public class Search extends AppCompatActivity {
                     textViewDescription.setTextColor(Color.BLACK);
 
                     buttonViewPlant = new Button(getBaseContext());
+                    buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
                     buttonViewPlant.setWidth(80);
                     buttonViewPlant.setHeight(40);
 
