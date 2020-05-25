@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.conferencebookingsystem.API.CityList;
 import com.conferencebookingsystem.R;
 
 import org.json.JSONArray;
@@ -42,7 +43,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -57,7 +60,10 @@ public class Search extends AppCompatActivity {
     EditText seats;
     Button buttonViewPlant;
     LinearLayout linearLayoutH, linearLayoutV;
+    Spinner spinner;
 
+    HashMap<Integer, String> listOfCities;
+    private String selectedCityOnSpinner;
     private static final String tag = "Search";
     private TextView Date;
     private DatePickerDialog.OnDateSetListener DateListener;
@@ -69,11 +75,12 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        spinner = findViewById(R.id.CitySearch);
         tableLayout = findViewById(R.id.tableLayout);
         scrollView = findViewById(R.id.scrollView);
         buttonSearch = findViewById(R.id.SearchButton);
         Date = (TextView) findViewById(R.id.Date);
-        asyncSearchAPI = new RestConnectionSearch();
+        //asyncSearchAPI = new RestConnectionSearch();
         requestQueue = Volley.newRequestQueue(this);
         seats = findViewById(R.id.People);
 
@@ -84,6 +91,9 @@ public class Search extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String currentDate = year + "-" + (month+1) + "-" + day;
 
+        CityList city = new CityList("https://dev-be.timetomeet.se/service/rest/city/", this);
+        listOfCities = city.getCities();
+
         // default search settings if nothing is picked
         DataHolder.setDate(currentDate);
         DataHolder.setCity("1");
@@ -93,9 +103,8 @@ public class Search extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DataHolder.setPeople(seats.getText().toString());
+                asyncSearchAPI = new RestConnectionSearch();
                 asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
-
-
             }
         });
 
@@ -130,7 +139,7 @@ public class Search extends AppCompatActivity {
 
         // Nusret
         // https://android--code.blogspot.com/2015/08/android-spinner-hint.html
-        final Spinner spinner = (Spinner) findViewById(R.id.CitySearch);
+
 
         String[] Cities = new String[]{
                 "City",
@@ -167,7 +176,7 @@ public class Search extends AppCompatActivity {
         final List<String> cityList = new ArrayList<>(Arrays.asList(Cities));
 
         final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String> (
-                this,R.layout.support_simple_spinner_dropdown_item,cityList) {
+                this,R.layout.support_simple_spinner_dropdown_item, cityList) {
         @Override
         public boolean isEnabled(int position){
             if(position == 0)
@@ -196,22 +205,33 @@ public class Search extends AppCompatActivity {
             return view;
         }
     };
+
         spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String selectedItemText = (String) parent.getItemAtPosition(position);
+            selectedCityOnSpinner = (String) parent.getItemAtPosition(position);
+
             // If user change the default selection
             // First item is disable and it is used for hint
             if(position > 0){
                 // Notify the selected item text
                 Toast.makeText
-                        (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
+                        (getApplicationContext(), "Selected : " + selectedCityOnSpinner, Toast.LENGTH_SHORT)
                         .show();
                 String currentCity = "" + position;
                 System.out.println(currentCity);
+
+                /*getting id of the selected city on the spinner*/
+                for(Map.Entry<Integer, String> entry: listOfCities.entrySet()){
+                    if(entry.getValue().equals(selectedCityOnSpinner)){
+                        DataHolder.setCity(String.valueOf(entry.getKey()));
+                        System.out.println("The selected city has ID: " + entry.getKey());
+                    }
+                }
+
                 // DataHolder.setCity(currentCity);
             }
         }
@@ -229,7 +249,7 @@ public class Search extends AppCompatActivity {
         String jsonSearchParam = "{" +
                 "    \"cityId\": "+DataHolder.getCity()+"," +
                 "    \"seats\": "+DataHolder.getPeople()+"," +
-                "    \"priceFrom\": 10," +
+                //"    \"priceFrom\": 10," +
                 //"    \"plantId\": 1," +
                 "    \"dateTimeFrom\": \""+DataHolder.getDate()+"T09:00:00+02:00\"," +
                 "    \"dateTimeTo\": \""+DataHolder.getDate()+"T12:00:00+02:00\"," +
@@ -305,7 +325,7 @@ public class Search extends AppCompatActivity {
             return responseContent;
         }
         protected void onPostExecute(final String result) {
-
+            tableLayout.removeAllViews();
             /*Adding dynamic view to the app*/
 
             ArrayList<JSONObject> listPlant= new ArrayList<>();
@@ -327,7 +347,6 @@ public class Search extends AppCompatActivity {
 //                  System.out.println("Visiting address"+ i + jsonObject.getString("street"));
 
             }
-
 
                 for(int i = 0; i< plantsOverview.length(); i++){
                     tableRow = new TableRow(getBaseContext());
@@ -416,7 +435,7 @@ public class Search extends AppCompatActivity {
         }
     }
 
-    public static class DataHolder {
+    private static class DataHolder {
         private static String city;
         private static String date;
         private static String people;
@@ -429,6 +448,7 @@ public class Search extends AppCompatActivity {
 
         public static String getPeople() {return people;}
         public static void setPeople(String people) {DataHolder.people = people;}
+
     }
 
 

@@ -27,6 +27,7 @@ public class CityList {
         this.url = url;
         this.context = context;
         requestQueue = Volley.newRequestQueue(context);
+        getCityAPI();
     }
 
     public void getCityAPI() {
@@ -48,7 +49,7 @@ public class CityList {
                         url = response.getString("next");
                         getCityAPI();
                     }else{
-                        System.out.println("The number of cities are: " + cities.size());
+                        System.out.println("The number of cities on API are: " + cities.size());
                     }
 
                 } catch (JSONException e) {
@@ -65,5 +66,7 @@ public class CityList {
         requestQueue.add(request);
     }
 
-
+    public HashMap<Integer, String> getCities() {
+        return cities;
+    }
 }
