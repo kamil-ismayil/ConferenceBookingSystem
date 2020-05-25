@@ -97,12 +97,16 @@ public class Search extends AppCompatActivity {
         // default search settings if nothing is picked
         DataHolder.setDate(currentDate);
         DataHolder.setCity("1");
-        DataHolder.setPeople("5");
+        //DataHolder.setPeople("5");
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataHolder.setPeople(seats.getText().toString());
+                if (DataHolder.getPeople() == null) {
+                    DataHolder.setPeople("5");
+                } else {
+                    DataHolder.setPeople(seats.getText().toString());
+                }
                 asyncSearchAPI = new RestConnectionSearch();
                 asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
             }
