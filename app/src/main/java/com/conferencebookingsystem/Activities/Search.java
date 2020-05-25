@@ -3,6 +3,7 @@ package com.conferencebookingsystem.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -331,6 +332,12 @@ public class Search extends AppCompatActivity {
                     buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
                     buttonViewPlant.setWidth(80);
                     buttonViewPlant.setHeight(40);
+                    buttonViewPlant.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(Search.this, Booking.class));
+                        }
+                    });
 
                     // Ändrar storkejen på knapparna av någon anledning
                     // buttonViewPlant.setBackgroundColor(getResources().getColor(R.color.Green));
@@ -367,7 +374,7 @@ public class Search extends AppCompatActivity {
                                     );
                         linearLayoutH.addView(linearLayoutV);
                             linearLayoutV.addView(textViewPrice);
-                            textViewPrice.setText("Price from" + listPlant.get(i).getString("priceFrom"));
+                            textViewPrice.setText("Price: " + listPlant.get(i).getString("priceFrom"));
 
                             a2++;
                             if(a2==1){
