@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -53,6 +54,7 @@ public class Search extends AppCompatActivity {
     TableRow tableRow;
     ImageView imageView;
     TextView textViewDescription, textViewPrice;
+    EditText seats;
     Button buttonViewPlant;
     LinearLayout linearLayoutH, linearLayoutV;
 
@@ -73,10 +75,24 @@ public class Search extends AppCompatActivity {
         Date = (TextView) findViewById(R.id.Date);
         asyncSearchAPI = new RestConnectionSearch();
         requestQueue = Volley.newRequestQueue(this);
+        seats = findViewById(R.id.People);
+
+        // current date
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String currentDate = year + "-" + (month+1) + "-" + day;
+
+        // default search settings if nothing is picked
+        DataHolder.setDate(currentDate);
+        DataHolder.setCity("1");
+        DataHolder.setPeople("5");
 
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DataHolder.setPeople(seats.getText().toString());
                 asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
 
 
@@ -106,8 +122,9 @@ public class Search extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
-                String selectedDate = dayOfMonth + "/" + month + "/" + year;
+                String selectedDate = year + "-" + month + "-" + dayOfMonth;
                 Date.setText(selectedDate);
+                DataHolder.setDate(selectedDate);
             }
         };
 
@@ -193,6 +210,9 @@ public class Search extends AppCompatActivity {
                 Toast.makeText
                         (getApplicationContext(), "Selected : " + selectedItemText, Toast.LENGTH_SHORT)
                         .show();
+                String currentCity = "" + position;
+                System.out.println(currentCity);
+                // DataHolder.setCity(currentCity);
             }
         }
 
@@ -204,14 +224,15 @@ public class Search extends AppCompatActivity {
     }
 
     private String jsonSearchParam(){
+        //date 2020-05-28 dvs. yyyy-mm-dd
 
         String jsonSearchParam = "{" +
-                "    \"cityId\": 1," +
-                "    \"seats\": 5," +
+                "    \"cityId\": "+DataHolder.getCity()+"," +
+                "    \"seats\": "+DataHolder.getPeople()+"," +
                 "    \"priceFrom\": 10," +
                 //"    \"plantId\": 1," +
-                "    \"dateTimeFrom\": \"2020-05-26T09:00:00+02:00\"," +
-                "    \"dateTimeTo\": \"2020-05-26T12:00:00+02:00\"," +
+                "    \"dateTimeFrom\": \""+DataHolder.getDate()+"T09:00:00+02:00\"," +
+                "    \"dateTimeTo\": \""+DataHolder.getDate()+"T12:00:00+02:00\"," +
                 "    \"page\": 1" +
                 "}";
         return jsonSearchParam;
@@ -233,6 +254,9 @@ public class Search extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             Toast.makeText(Search.this,"Searching for rooms..",Toast.LENGTH_SHORT).show();
+            System.out.println(DataHolder.getCity());
+            System.out.println(DataHolder.getPeople());
+            System.out.println(DataHolder.getDate());
         }
 
         protected String doInBackground(String... requestData) {
@@ -318,13 +342,13 @@ public class Search extends AppCompatActivity {
                     imageView.setMaxHeight(200);
 
                     textViewPrice = new TextView(getBaseContext());
-                    textViewPrice.setWidth(100);
+                    textViewPrice.setWidth(130);
                     textViewPrice.setHeight(40);
                     textViewPrice.setTextColor(Color.BLACK);
                     //textViewPrice.setText(Typeface.BOLD);
 
                     textViewDescription = new TextView(getBaseContext());
-                    textViewDescription.setWidth(800);
+                    textViewDescription.setWidth(780);
                     textViewDescription.setHeight(300);
                     textViewDescription.setTextColor(Color.BLACK);
 
@@ -390,6 +414,21 @@ public class Search extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static class DataHolder {
+        private static String city;
+        private static String date;
+        private static String people;
+
+        public static String getCity() {return city;}
+        public static void setCity(String city) {DataHolder.city = city;}
+
+        public static String getDate() {return date;}
+        public static void setDate(String date) {DataHolder.date = date;}
+
+        public static String getPeople() {return people;}
+        public static void setPeople(String people) {DataHolder.people = people;}
     }
 
 
