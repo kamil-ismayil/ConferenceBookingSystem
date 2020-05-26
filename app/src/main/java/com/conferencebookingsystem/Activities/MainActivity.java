@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         splashScreenTimer();
     }
 
-    // efter 2 sekunder går den vidare till Login
+    // efter 3 sekunder går den vidare till Login
     public void splashScreenTimer() {
         final Handler handler = new Handler();
 
