@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -23,22 +25,29 @@ import java.util.ArrayList;
 
 public class Booking extends AppCompatActivity {
 
-    Button button;
+    Button buttonViewBooking;
     TableLayout tableLayout;
     ScrollView scrollView;
-    TableRow tableRow;
+    TableRow tableRow, tableRow1, tableRow2, tableRow3, tableRow4, tableRow5,tableRow6,tableRow7;
     ImageView imageView;
-    TextView roomInfo, plantInfo;
-    LinearLayout linearLayoutH, linearLayoutV;
+    TextView roomInfo, roomName, maxPeople, calendar;
+    RadioGroup timeOfDay;
+    RadioButton morningPrice, afternoonPrice, fullDayPrice;
+    LinearLayout linearLayoutInnerV, linearLayoutV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
 
-        protected void onPostExecute(final String result) {
+
+    }
+
+
+
+         protected void onPostExecute(final String result) {
             tableLayout.removeAllViews();
-            /*Adding dynamic view to the app*/
+            //Adding dynamic view to the app
 
             ArrayList<JSONObject> listPlant= new ArrayList<>();
             ArrayList<JSONObject> addressPlant= new ArrayList<>();
@@ -60,42 +69,31 @@ public class Booking extends AppCompatActivity {
 
                 }
 
-                for(int i = 0; i< plantsOverview.length(); i++){
+                for(int i = 0; i< roomsOverview.length(); i++){
                     tableRow = new TableRow(getBaseContext());
-                    linearLayoutH = new LinearLayout(getBaseContext());
-                    linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
 
                     linearLayoutV = new LinearLayout(getBaseContext());
                     linearLayoutV.setOrientation(LinearLayout.VERTICAL);
 
                     imageView = new ImageView(getBaseContext());
-                    imageView.setMaxWidth(200);
-                    imageView.setMaxHeight(200);
 
-                    textViewPrice = new TextView(getBaseContext());
-                    textViewPrice.setWidth(130);
-                    textViewPrice.setHeight(40);
-                    textViewPrice.setTextColor(Color.BLACK);
+                    roomName = new TextView(getBaseContext());
+                    roomName.setTextColor(Color.BLACK);
                     //textViewPrice.setText(Typeface.BOLD);
 
-                    textViewDescription = new TextView(getBaseContext());
-                    textViewDescription.setWidth(780);
-                    textViewDescription.setHeight(300);
-                    textViewDescription.setTextColor(Color.BLACK);
+                    roomInfo = new TextView(getBaseContext());
+                    roomInfo.setTextColor(Color.BLACK);
 
-                    buttonViewPlant = new Button(getBaseContext());
-                    buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
-                    buttonViewPlant.setWidth(80);
-                    buttonViewPlant.setHeight(40);
-                    buttonViewPlant.setOnClickListener(new View.OnClickListener() {
+                    buttonViewBooking = new Button(getBaseContext());
+                    buttonViewBooking.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
+                    buttonViewBooking.setWidth(80);
+                    buttonViewBooking.setHeight(40);
+                    buttonViewBooking.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(Search.this, Booking.class));
+                            startActivity(new Intent(Booking.this,  //tillval klassens namn här .class));
                         }
                     });
-
-                    // Ändrar storkejen på knapparna av någon anledning
-                    // buttonViewPlant.setBackgroundColor(getResources().getColor(R.color.Green));
 
                     scrollView = new ScrollView(getBaseContext());
 
@@ -114,29 +112,50 @@ public class Booking extends AppCompatActivity {
 
                     tableRow.setLayoutParams(tableRowParams);
 
-                    tableRow.addView(linearLayoutH);
-                    linearLayoutH.addView(imageView);
+                    tableRow.addView(linearLayoutV);
+                    linearLayoutV.addView(imageView);
+                    int a1 = 0;
                     a1++;
                     if(a1== 1){
-                        linearLayoutH.removeView(scrollView);
+                        linearLayoutV.removeView(scrollView);
                     }
-                    linearLayoutH.addView(scrollView);
-                    scrollView.addView(textViewDescription);
-                    textViewDescription.setText(listPlant.get(i).getString("plantFacts")
-                            + "\n" + addressPlant.get(i).getString("street") +
-                            ", " + addressPlant.get(i).getString("zip") + " "
-                            +  addressPlant.get(i).getString("city")
-                    );
-                    linearLayoutH.addView(linearLayoutV);
-                    linearLayoutV.addView(textViewPrice);
-                    textViewPrice.setText("Price: " + listPlant.get(i).getString("priceFrom"));
+                    linearLayoutV.addView(scrollView);
+                        scrollView.addView(linearLayoutInnerV);
+                            linearLayoutInnerV.addView(tableRow1);
+                                tableRow1.addView(imageView);
+                            linearLayoutInnerV.addView(tableRow2);
+                                tableRow2.addView(roomName);
+                                    roomName.setText("");
+                            linearLayoutInnerV.addView(tableRow3);
+                                tableRow3.addView(maxPeople);
+                                    maxPeople.setText("");
+                                tableRow3.addView(imageView);
+                            linearLayoutInnerV.addView(tableRow4);
+                                tableRow4.addView(imageView);
+                                tableRow4.addView(imageView);
+                                tableRow4.addView(imageView);
+                            linearLayoutInnerV.addView(tableRow5);
+                                tableRow5.addView(roomInfo);
+                                    roomInfo.setText("");
+                            linearLayoutInnerV.addView(tableRow6);
+                                tableRow6.addView(timeOfDay);
+                                    timeOfDay.addView(morningPrice);
+                                        morningPrice.setText("morning price: " + listPlant.get(i).getString("priceFrom"));
+                                    timeOfDay.addView(afternoonPrice);
+                                        afternoonPrice.setText("Afternoon price: " + listPlant.get(i).getString("priceFrom"));
+                                    timeOfDay.addView(fullDayPrice);
+                                        fullDayPrice.setText("Full day price: " + listPlant.get(i).getString("priceFrom"));
+                            linearLayoutInnerV.addView(tableRow7);
+                                tableRow7.addView(calendar);
 
+
+                    int a2 = 0;
                     a2++;
                     if(a2==1){
-                        linearLayoutV.removeView(buttonViewPlant);
+                        tableRow7.removeView(buttonViewBooking);
                     }
-                    linearLayoutV.addView(buttonViewPlant);
-                    buttonViewPlant.setText("Book");
+                    tableRow7.addView(buttonViewBooking);
+                    buttonViewBooking.setText("Book");
                     a1=0; a2=0;
 
                 }
@@ -146,4 +165,4 @@ public class Booking extends AppCompatActivity {
             }
         }
     }
-}
+

@@ -51,14 +51,13 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Search extends AppCompatActivity {
 
-    Button buttonSearch;
+    Button buttonSearch, buttonViewPlant;
     TableLayout tableLayout;
     ScrollView scrollView;
     TableRow tableRow;
     ImageView imageView;
     TextView textViewDescription, textViewPrice;
     EditText seats;
-    Button buttonViewPlant;
     LinearLayout linearLayoutH, linearLayoutV;
     Spinner spinner;
 
@@ -328,6 +327,7 @@ public class Search extends AppCompatActivity {
 
             return responseContent;
         }
+
         protected void onPostExecute(final String result) {
             tableLayout.removeAllViews();
             /*Adding dynamic view to the app*/
@@ -366,7 +366,7 @@ public class Search extends AppCompatActivity {
 
                     textViewPrice = new TextView(getBaseContext());
                     textViewPrice.setWidth(130);
-                    textViewPrice.setHeight(40);
+                    textViewPrice.setHeight(100);
                     textViewPrice.setTextColor(Color.BLACK);
                     //textViewPrice.setText(Typeface.BOLD);
 
@@ -378,16 +378,14 @@ public class Search extends AppCompatActivity {
                     buttonViewPlant = new Button(getBaseContext());
                     buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
                     buttonViewPlant.setWidth(80);
-                    buttonViewPlant.setHeight(40);
+                    buttonViewPlant.setHeight(60);
+                    buttonViewPlant.setTextSize(10);
                     buttonViewPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             startActivity(new Intent(Search.this, Booking.class));
                         }
                     });
-
-                    // Ändrar storkejen på knapparna av någon anledning
-                    // buttonViewPlant.setBackgroundColor(getResources().getColor(R.color.Green));
 
                     scrollView = new ScrollView(getBaseContext());
 
@@ -421,14 +419,14 @@ public class Search extends AppCompatActivity {
                                     );
                         linearLayoutH.addView(linearLayoutV);
                             linearLayoutV.addView(textViewPrice);
-                            textViewPrice.setText("Price: " + listPlant.get(i).getString("priceFrom"));
+                            textViewPrice.setText("Price from: " + listPlant.get(i).getString("priceFrom"));
 
                             a2++;
                             if(a2==1){
                                 linearLayoutV.removeView(buttonViewPlant);
                             }
                             linearLayoutV.addView(buttonViewPlant);
-                            buttonViewPlant.setText("Book");
+                            buttonViewPlant.setText("View Rooms");
                     a1=0; a2=0;
 
                 }
