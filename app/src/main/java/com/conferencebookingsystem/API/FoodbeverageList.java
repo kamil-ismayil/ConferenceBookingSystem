@@ -20,7 +20,6 @@ public class FoodbeverageList {
     String url;
     HashMap<Integer,String> foodbeverageList = new HashMap<>();
 
-    private static CityList mInstance;
     private RequestQueue requestQueue;
     private static Context context;
 

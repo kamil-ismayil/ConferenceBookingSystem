@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.conferencebookingsystem.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +43,9 @@ public class Booking extends AppCompatActivity {
 
     String jsonSearchParam;
     AsyncTask<String, Void, String> asyncSearchAPI;
-    int preNoonPrice, afterNoonPrice, conferenceRoomId, conferenceRoomAvailabilityId, fullDayPrice, block;
-    String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, imageURL;
+    int priceAM, pricePM, conferenceRoomId, conferenceRoomAvailabilityId, priceFull, block;
+    String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, imageURL,
+            preNoonAvailabilityHourStart, preNoonAvailabilityHourEnd, afterNoonAvailabilityHourStart, afterNoonAvailabilityHourEnd;
 
     private JSONArray seats, images, roomIDs, rooms;
     private JSONObject jsonObject, room, image, seat;
@@ -130,26 +130,26 @@ public class Booking extends AppCompatActivity {
 
         protected void onPostExecute(final String result) {
             try {
-                rooms = jsonObject.getJSONArray("conferenceRoomAvailability");
+                rooms = jsonObject.getJSONArray("rooms");
 
                 for(int i = 0; i< rooms.length(); i++) {
                     room = rooms.getJSONObject(i);
                     System.out.println("The number of rooms are: " + rooms.length());
 
-                    conferenceRoomAvailabilityId = room.getInt("id");
-                    conferenceRoomId = room.getInt("conferenceRoom");
-                    conferenceRoomDescription = room.getString("conferenceRoomDescription");
+                    conferenceRoomId = room.getInt("conferenceRoomId");
+                    conferenceRoomName = room.getString("conferenceRoomName");
+                    conferenceRoomDescription = room.getString("description");
+                    
+                    priceAM = room.getInt("priceAM");
+                    pricePM = room.getInt("pricePM");
+                    priceFull = room.getInt("priceFull");
 
-                    preNoonPrice = room.getInt("preNoonPrice");
-                    afterNoonPrice = room.getInt("afterNoonPrice");
-                    fullDayPrice = room.getInt("fullDayPrice");
+                    preNoonAvailabilityHourStart = room.getString("preNoonAvailabilityHourStart");
+                    preNoonAvailabilityHourEnd = room.getString("preNoonAvailabilityHourEnd");
+                    afterNoonAvailabilityHourStart = room.getString("afterNoonAvailabilityHourStart");
+                    afterNoonAvailabilityHourEnd = room.getString("afterNoonAvailabilityHourEnd");
 
-                    hoursAvailableFrom = room.getString("hoursAvailableFrom");
-                    hoursAvailableTo = room.getString("hoursAvailableTo");
-
-                    block = room.getInt("block");
-
-                    images = room.getJSONArray("image");
+                    images = room.getJSONArray("images");
                         System.out.println("The number of images are: " + images.length());
                     seats = room.getJSONArray("seats");
                         System.out.println("The number of seats are: " + seats.length());
@@ -182,13 +182,15 @@ public class Booking extends AppCompatActivity {
 
             tableRow = new TableRow(getBaseContext());
             imageView = new ImageView(getBaseContext());
+//            imageView.setMaxWidth(20);
+//            imageView.setMaxHeight(20);
 
-            for(int i1=0; i1<imageList.size(); i1++) {
-                System.out.println("The image path is: " + imageList.get(i1).getString("image"));
-                //Picasso.get().load(https.concat(imageList.get(i1).getString("image"))).into(imageView);
-                //Thread.sleep(500);
-            }
-            Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
+//            for(int i1=0; i1<imageList.size(); i1++) {
+//                System.out.println("The image path is: " + imageList.get(i1).getString("image"));
+//                //Picasso.get().load(https.concat(imageList.get(i1).getString("image"))).into(imageView);
+//                //Thread.sleep(500);
+//            }
+
 
             linearLayoutH = new LinearLayout(getBaseContext());
             linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
@@ -219,11 +221,11 @@ public class Booking extends AppCompatActivity {
             textViewDescription.setHeight(100);
 
             radioButton1 = new RadioButton(getBaseContext());
-                radioButton1.setText(preNoonPrice + " kr");
+                radioButton1.setText(priceAM + " kr");
             radioButton2 = new RadioButton(getBaseContext());
-                radioButton2.setText(afterNoonPrice + " kr");
+                radioButton2.setText(pricePM + " kr");
             radioButton3 = new RadioButton(getBaseContext());
-                radioButton3.setText(fullDayPrice + " kr");
+                radioButton3.setText(priceFull + " kr");
 
             textViewPrice1 = new TextView(getBaseContext());
             textViewPrice2 = new TextView(getBaseContext());
@@ -251,20 +253,14 @@ public class Booking extends AppCompatActivity {
                         linearLayoutH.removeView(buttonBook);
                     linearLayoutH.addView(buttonBook);
 
-        switch (block){
-            case 31:
-                textViewTime1.setText("FÖRMIDDAG \n" + hoursAvailableFrom +" - " + hoursAvailableTo);
-                radioGroup.addView(radioButton1);
-                radioGroup.addView(radioButton3);
+        textViewTime1.setText("FÖRMIDDAG \n" + preNoonAvailabilityHourStart +" - " + preNoonAvailabilityHourEnd);
+        textViewTime2.setText("EFTERMIDDAG \n" + afterNoonAvailabilityHourStart +" - " + afterNoonAvailabilityHourEnd);
 
-                break;
-            case 32:
-                textViewTime2.setText("EFTERMIDDAG \n" + hoursAvailableFrom +" - " + hoursAvailableTo);
-                radioGroup.addView(radioButton2);
-                radioGroup.addView(radioButton3);
+        radioGroup.addView(radioButton1);
+        radioGroup.addView(radioButton2);
+        radioGroup.addView(radioButton3);
 
-                break;
-        }
+        //Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
 
     }
 
