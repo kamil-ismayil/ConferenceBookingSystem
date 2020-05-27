@@ -1,10 +1,15 @@
 package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,8 +37,8 @@ public class Booking extends AppCompatActivity {
 
     ScrollView scrollView, scrollView1;
     TableLayout tableLayout;
-    TableRow tableRow;
-    LinearLayout linearLayoutH, linearLayoutH1, linearLayoutV, linearLayoutV1;
+    TableRow tableRow, tableRow1;
+    LinearLayout linearLayoutH, linearLayoutH1, linearLayoutV, linearLayoutV1, linearLayoutV2;
     ImageView imageView;
     TextView textViewTime1, textViewTime2, textViewTime3, textViewPrice1, textViewPrice2, textViewPrice3, textViewDescription;
     Button buttonBook;
@@ -70,6 +75,12 @@ public class Booking extends AppCompatActivity {
         asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(Booking.this, Login.class));
+        //normal back button: super.onBackPressed();
     }
 
     private class RestConnectionSearch extends AsyncTask<String, Void, String> {
@@ -181,6 +192,13 @@ public class Booking extends AppCompatActivity {
         System.out.println("AddElements being called for: " + aaa);
 
             tableRow = new TableRow(getBaseContext());
+            tableRow.setBackgroundResource(R.drawable.table_divider);
+
+            tableRow1 = new TableRow(getBaseContext());
+            tableRow1.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+            tableRow1.setBackgroundResource(R.drawable.table_divider);
+
+
             imageView = new ImageView(getBaseContext());
 //            imageView.setMaxWidth(20);
 //            imageView.setMaxHeight(20);
@@ -192,6 +210,10 @@ public class Booking extends AppCompatActivity {
 //            }
 
 
+        // adding custom font
+        Typeface monterrat = ResourcesCompat.getFont(getApplicationContext(),R.font.montserrat);
+        Typeface monterratBold = ResourcesCompat.getFont(getApplicationContext(),R.font.montserratbold);
+
             linearLayoutH = new LinearLayout(getBaseContext());
             linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -200,43 +222,107 @@ public class Booking extends AppCompatActivity {
 
             linearLayoutV = new LinearLayout(getBaseContext());
             linearLayoutV.setOrientation(LinearLayout.VERTICAL);
+            linearLayoutV.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
 
             linearLayoutV1 = new LinearLayout(getBaseContext());
             linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
 
+        linearLayoutV2 = new LinearLayout(getBaseContext());
+        linearLayoutV2.setOrientation(LinearLayout.VERTICAL);
+        linearLayoutV2.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
             buttonBook = new Button(getBaseContext());
             buttonBook.setText("Book");
+            buttonBook.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
+            buttonBook.setWidth(60);
+            buttonBook.setHeight(40);
+            buttonBook.setTextSize(10);
+            buttonBook.setTextColor(Color.BLACK);
+            buttonBook.setTypeface(monterratBold);
+            buttonBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            radioGroup = new RadioGroup(getBaseContext());
+                    startActivity(new Intent(Booking.this, Choice.class));
+
+                }
+            });
 
             scrollView1 = new ScrollView(getBaseContext());
             textViewDescription = new TextView(getBaseContext());
 
             textViewTime1 = new TextView(getBaseContext());
+            textViewTime1.setTypeface(monterrat);
             textViewTime2 = new TextView(getBaseContext());
+            textViewTime2.setTypeface(monterrat);
             textViewTime3 = new TextView(getBaseContext());
+            textViewTime3.setTypeface(monterrat);
             textViewTime3.setText("HELDAG");
+
             textViewDescription.setText(conferenceRoomDescription);
-            textViewDescription.setWidth(200);
-            textViewDescription.setHeight(100);
+            textViewDescription.setTypeface(monterrat);
+
+            radioGroup = new RadioGroup(getBaseContext());
+            radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
 
             radioButton1 = new RadioButton(getBaseContext());
                 radioButton1.setText(priceAM + " kr");
+                radioButton1.setTypeface(monterrat);
+                radioButton1.setPadding(0,0,0,38);
+                radioButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println(priceAM + " kr");
+                    }
+                });
             radioButton2 = new RadioButton(getBaseContext());
                 radioButton2.setText(pricePM + " kr");
+                radioButton2.setTypeface(monterrat);
+                radioButton2.setPadding(0,0,0,38);
+                radioButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println(pricePM + " kr");
+                    }
+                });
             radioButton3 = new RadioButton(getBaseContext());
                 radioButton3.setText(priceFull + " kr");
+                radioButton3.setTypeface(monterrat);
+                radioButton3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println(priceFull + " kr");
+                    }
+                });
 
             textViewPrice1 = new TextView(getBaseContext());
+            textViewPrice1.setTypeface(monterrat);
             textViewPrice2 = new TextView(getBaseContext());
+            textViewPrice2.setTypeface(monterrat);
             textViewPrice3 = new TextView(getBaseContext());
+            textViewPrice3.setTypeface(monterrat);
+
+            tableLayout.addView(linearLayoutV2);
+            linearLayoutV2.addView(tableRow1);
+        TableLayout.LayoutParams tableRowParams=
+                new TableLayout.LayoutParams
+                        (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+        int leftMargin=2;
+        int topMargin=30;
+        int rightMargin=2;
+        int bottomMargin=2;
+
+        tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+        tableRow1.setLayoutParams(tableRowParams);
+            tableRow1.addView(scrollView1);
+            scrollView1.addView(textViewDescription);
 
             tableLayout.addView(tableRow);
                 tableRow.addView(linearLayoutH);
                     linearLayoutH.addView(imageView);
-                        linearLayoutH.removeView(scrollView1);
-                    linearLayoutH.addView(scrollView1);
-                        scrollView1.addView(textViewDescription);
+
                     linearLayoutH.addView(linearLayoutH1);
                         linearLayoutH1.addView(linearLayoutV);
                             linearLayoutV.addView(textViewTime1);
@@ -260,6 +346,9 @@ public class Booking extends AppCompatActivity {
         radioGroup.addView(radioButton2);
         radioGroup.addView(radioButton3);
 
+        // trycka på book knappen skickar en till ny sida
+        // listener på radiobuttons
+        // room id och tid
         //Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
 
     }

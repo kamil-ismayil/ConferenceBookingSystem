@@ -1,11 +1,15 @@
 package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -332,6 +336,12 @@ public class Search extends AppCompatActivity {
         protected void onPostExecute(final String result) {
 
             tableLayout.removeAllViews();
+
+            // adding custom font
+            Typeface monterrat = ResourcesCompat.getFont(getApplicationContext(),R.font.montserrat);
+            Typeface monterratBold = ResourcesCompat.getFont(getApplicationContext(),R.font.montserratbold);
+                    //Typeface.createFromAsset(getAssets(), "font/montserrat.ttf");
+                    //ResourcesCompat.getFont(this, R.font.montserrat);
             /*Adding dynamic view to the app*/
 
             ArrayList<JSONObject> listPlant= new ArrayList<>();
@@ -353,11 +363,16 @@ public class Search extends AppCompatActivity {
                     ii = i;
                     aa++;
                     tableRow = new TableRow(getBaseContext());
+                    tableRow.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                    tableRow.setBackgroundResource(R.drawable.table_divider);
+
+
                     linearLayoutH = new LinearLayout(getBaseContext());
                     linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
 
                     linearLayoutV = new LinearLayout(getBaseContext());
                     linearLayoutV.setOrientation(LinearLayout.VERTICAL);
+
 
                     imageView = new ImageView(getBaseContext());
                     imageView.setMaxWidth(200);
@@ -367,19 +382,23 @@ public class Search extends AppCompatActivity {
                     textViewPrice.setWidth(130);
                     textViewPrice.setHeight(100);
                     textViewPrice.setTextColor(Color.BLACK);
-                    //textViewPrice.setText(Typeface.BOLD);
+                    textViewPrice.setTypeface(monterrat);
 
                     textViewDescription = new TextView(getBaseContext());
                     textViewDescription.setWidth(780);
-                    textViewDescription.setHeight(300);
                     textViewDescription.setTextColor(Color.BLACK);
+                    textViewDescription.setTypeface(monterrat);
+                    textViewDescription.setBackgroundResource(R.drawable.table_divider);
+                    textViewDescription.setLayoutParams(new LinearLayout.LayoutParams(780, TableLayout.LayoutParams.WRAP_CONTENT));
 
                     buttonViewPlant = new Button(getBaseContext());
                     buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
                     buttonViewPlant.setWidth(80);
                     buttonViewPlant.setHeight(60);
                     buttonViewPlant.setTextSize(10);
+                    buttonViewPlant.setTextColor(Color.BLACK);
                     buttonViewPlant.setId(i);
+                    buttonViewPlant.setTypeface(monterratBold);
 
                     buttonViewPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -397,6 +416,7 @@ public class Search extends AppCompatActivity {
                     });
 
                     scrollView = new ScrollView(getBaseContext());
+                    scrollView.setLayoutParams(new ScrollView.LayoutParams(780, TableLayout.LayoutParams.WRAP_CONTENT));
 
 
                     tableLayout.addView(tableRow);
@@ -405,9 +425,9 @@ public class Search extends AppCompatActivity {
                                     (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
 
                     int leftMargin=2;
-                    int topMargin=20;
+                    int topMargin=10;
                     int rightMargin=2;
-                    int bottomMargin=30;
+                    int bottomMargin=15;
 
                     tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
