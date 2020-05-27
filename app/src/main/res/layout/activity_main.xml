@@ -43,10 +43,11 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
+            android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="Search and book"
             android:textColor="#3fb436"
-            android:textSize="45dp"
+            android:textSize="35dp"
             android:textStyle="bold" />
 
         <TextView
@@ -54,10 +55,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="conferense rooms"
             android:textColor="#3fb436"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textStyle="bold" />
 
         <TextView
@@ -65,10 +67,11 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:fontFamily="@font/montserrat"
             android:gravity="center"
             android:text="online"
             android:textColor="#3fb436"
-            android:textSize="40dp"
+            android:textSize="35dp"
             android:textStyle="bold" />
 
     </LinearLayout>
