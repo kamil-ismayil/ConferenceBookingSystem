@@ -66,10 +66,7 @@ public class CreateAccount extends AppCompatActivity {
         buttonCreate = findViewById(R.id.btnCreate);
 
         asyncCreateUserAPI = new CreateAccountApi();
-
-
-
-createButtonLock();
+        createButtonLock();
 
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override

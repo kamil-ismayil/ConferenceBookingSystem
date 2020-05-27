@@ -3,10 +3,8 @@ package com.conferencebookingsystem.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,153 +14,259 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.conferencebookingsystem.R;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.util.ArrayList;
+import javax.net.ssl.HttpsURLConnection;
 
 public class Booking extends AppCompatActivity {
 
-    Button buttonViewBooking;
+    ScrollView scrollView, scrollView1;
     TableLayout tableLayout;
-    ScrollView scrollView;
-    TableRow tableRow, tableRow1, tableRow2, tableRow3, tableRow4, tableRow5,tableRow6,tableRow7;
+    TableRow tableRow;
+    LinearLayout linearLayoutH, linearLayoutH1, linearLayoutV, linearLayoutV1;
     ImageView imageView;
-    TextView roomInfo, roomName, maxPeople, calendar;
-    RadioGroup timeOfDay;
-    RadioButton morningPrice, afternoonPrice, fullDayPrice;
-    LinearLayout linearLayoutInnerV, linearLayoutV;
+    TextView textViewTime1, textViewTime2, textViewTime3, textViewPrice1, textViewPrice2, textViewPrice3, textViewDescription;
+    Button buttonBook;
+    RadioGroup radioGroup;
+    RadioButton radioButton1, radioButton2, radioButton3;
+
+
+    String jsonSearchParam;
+    AsyncTask<String, Void, String> asyncSearchAPI;
+    int preNoonPrice, afterNoonPrice, conferenceRoomId, conferenceRoomAvailabilityId, fullDayPrice, block;
+    String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, imageURL;
+
+    private JSONArray seats, images, roomIDs, rooms;
+    private JSONObject jsonObject, room, image, seat;
+
+    int aaa=0;
+
+    ArrayList<JSONObject> seatList = new ArrayList<>();
+    ArrayList<JSONObject> imageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
 
+        scrollView = findViewById(R.id.scrollviewBooking);
+        tableLayout = findViewById(R.id.tableLayoutBooking);
+
+        Intent in = getIntent();
+        jsonSearchParam = in.getStringExtra("searchParam");
+
+        asyncSearchAPI = new RestConnectionSearch();
+        asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam);
+
 
     }
 
+    private class RestConnectionSearch extends AsyncTask<String, Void, String> {
+        private String responseContent;
+        private String Error = null;
+        private URL url;
+        int a1=0, a2=0, a3=0;
+//        HashMap<Integer, String> imageList = new HashMap<>();
+//        HashMap<Integer, String> seatList = new HashMap<>();
 
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(Booking.this,"List of available rooms..",Toast.LENGTH_SHORT).show();
 
-         protected void onPostExecute(final String result) {
-            tableLayout.removeAllViews();
-            //Adding dynamic view to the app
+        }
 
-            ArrayList<JSONObject> listPlant= new ArrayList<>();
-            ArrayList<JSONObject> addressPlant= new ArrayList<>();
+        protected String doInBackground(String... requestData) {
+            BufferedReader reader=null;
 
             try {
-                plantIDs = jsonObject.getJSONArray("plants");
-                plantsOverview = jsonObject.getJSONArray("plantsOverview");
+                url = new URL(requestData[0]);  //https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/
 
-                for(int i=0; i<plantsOverview.length(); i++){
-                    plant = plantsOverview.getJSONObject(i);
-                    listPlant.add(plant);
-                    visitingAddress = (JSONObject) plant.get("visitingAddress");
-                    addressPlant.add(visitingAddress);
-                    plantFacts = visitingAddress.getString("street");
-                    System.out.println("Address is: " + plantFacts);
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept","application/json");
+                connection.setDoOutput(true); // True för POST, PUT. False för GET
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+                wr.write(requestData[1]); // { "username": ....
+                wr.flush();
 
-//                  JSONObject jsonObject = (JSONObject) list.get(i).get("visitingAddress");
-//                  System.out.println("Visiting address"+ i + jsonObject.getString("street"));
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = reader.readLine()) != null) {
+                    sb.append(line + "  \n");
+                }
+
+                responseContent = sb.toString();
+                jsonObject = new JSONObject(responseContent);
+            }
+            catch(Exception ex) {
+                Error = ex.getMessage();
+                System.out.println("The error message is: " + Error);
+            }
+            finally {
+                try {
+                    reader.close();
+                }
+                catch(Exception ex) {
+
+                }
+            }
+
+            return responseContent;
+        }
+
+        protected void onPostExecute(final String result) {
+            try {
+                rooms = jsonObject.getJSONArray("conferenceRoomAvailability");
+
+                for(int i = 0; i< rooms.length(); i++) {
+                    room = rooms.getJSONObject(i);
+                    System.out.println("The number of rooms are: " + rooms.length());
+
+                    conferenceRoomAvailabilityId = room.getInt("id");
+                    conferenceRoomId = room.getInt("conferenceRoom");
+                    conferenceRoomDescription = room.getString("conferenceRoomDescription");
+
+                    preNoonPrice = room.getInt("preNoonPrice");
+                    afterNoonPrice = room.getInt("afterNoonPrice");
+                    fullDayPrice = room.getInt("fullDayPrice");
+
+                    hoursAvailableFrom = room.getString("hoursAvailableFrom");
+                    hoursAvailableTo = room.getString("hoursAvailableTo");
+
+                    block = room.getInt("block");
+
+                    images = room.getJSONArray("image");
+                        System.out.println("The number of images are: " + images.length());
+                    seats = room.getJSONArray("seats");
+                        System.out.println("The number of seats are: " + seats.length());
+
+                    for(int i1=0;i1<images.length();i1++) {
+                        imageList.add(images.getJSONObject(i1));
+                    }
+
+                    for(int i2=0; i2<seats.length(); i2++){
+                        seatList.add(seats.getJSONObject(i2));
+                    }
+
+                    addElements();
 
                 }
 
-                for(int i = 0; i< roomsOverview.length(); i++){
-                    tableRow = new TableRow(getBaseContext());
-
-                    linearLayoutV = new LinearLayout(getBaseContext());
-                    linearLayoutV.setOrientation(LinearLayout.VERTICAL);
-
-                    imageView = new ImageView(getBaseContext());
-
-                    roomName = new TextView(getBaseContext());
-                    roomName.setTextColor(Color.BLACK);
-                    //textViewPrice.setText(Typeface.BOLD);
-
-                    roomInfo = new TextView(getBaseContext());
-                    roomInfo.setTextColor(Color.BLACK);
-
-                    buttonViewBooking = new Button(getBaseContext());
-                    buttonViewBooking.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
-                    buttonViewBooking.setWidth(80);
-                    buttonViewBooking.setHeight(40);
-                    buttonViewBooking.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(Booking.this,  //tillval klassens namn här .class));
-                        }
-                    });
-
-                    scrollView = new ScrollView(getBaseContext());
-
-
-                    tableLayout.addView(tableRow);
-                    TableLayout.LayoutParams tableRowParams=
-                            new TableLayout.LayoutParams
-                                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-
-                    int leftMargin=2;
-                    int topMargin=20;
-                    int rightMargin=2;
-                    int bottomMargin=30;
-
-                    tableRowParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                    tableRow.setLayoutParams(tableRowParams);
-
-                    tableRow.addView(linearLayoutV);
-                    linearLayoutV.addView(imageView);
-                    int a1 = 0;
-                    a1++;
-                    if(a1== 1){
-                        linearLayoutV.removeView(scrollView);
-                    }
-                    linearLayoutV.addView(scrollView);
-                        scrollView.addView(linearLayoutInnerV);
-                            linearLayoutInnerV.addView(tableRow1);
-                                tableRow1.addView(imageView);
-                            linearLayoutInnerV.addView(tableRow2);
-                                tableRow2.addView(roomName);
-                                    roomName.setText("");
-                            linearLayoutInnerV.addView(tableRow3);
-                                tableRow3.addView(maxPeople);
-                                    maxPeople.setText("");
-                                tableRow3.addView(imageView);
-                            linearLayoutInnerV.addView(tableRow4);
-                                tableRow4.addView(imageView);
-                                tableRow4.addView(imageView);
-                                tableRow4.addView(imageView);
-                            linearLayoutInnerV.addView(tableRow5);
-                                tableRow5.addView(roomInfo);
-                                    roomInfo.setText("");
-                            linearLayoutInnerV.addView(tableRow6);
-                                tableRow6.addView(timeOfDay);
-                                    timeOfDay.addView(morningPrice);
-                                        morningPrice.setText("morning price: " + listPlant.get(i).getString("priceFrom"));
-                                    timeOfDay.addView(afternoonPrice);
-                                        afternoonPrice.setText("Afternoon price: " + listPlant.get(i).getString("priceFrom"));
-                                    timeOfDay.addView(fullDayPrice);
-                                        fullDayPrice.setText("Full day price: " + listPlant.get(i).getString("priceFrom"));
-                            linearLayoutInnerV.addView(tableRow7);
-                                tableRow7.addView(calendar);
-
-
-                    int a2 = 0;
-                    a2++;
-                    if(a2==1){
-                        tableRow7.removeView(buttonViewBooking);
-                    }
-                    tableRow7.addView(buttonViewBooking);
-                    buttonViewBooking.setText("Book");
-                    a1=0; a2=0;
-
-                }
-
-            } catch (Exception e) {
+            } catch (JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
+
+
         }
     }
+
+    public void addElements() throws JSONException, InterruptedException {
+        //tableLayout.removeAllViews();
+        aaa++;
+        String https = "https:";
+        System.out.println("AddElements being called for: " + aaa);
+
+            tableRow = new TableRow(getBaseContext());
+            imageView = new ImageView(getBaseContext());
+
+            for(int i1=0; i1<imageList.size(); i1++) {
+                System.out.println("The image path is: " + imageList.get(i1).getString("image"));
+                //Picasso.get().load(https.concat(imageList.get(i1).getString("image"))).into(imageView);
+                //Thread.sleep(500);
+            }
+            Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
+
+            linearLayoutH = new LinearLayout(getBaseContext());
+            linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
+
+            linearLayoutH1 = new LinearLayout(getBaseContext());
+            linearLayoutH1.setOrientation(LinearLayout.HORIZONTAL);
+
+            linearLayoutV = new LinearLayout(getBaseContext());
+            linearLayoutV.setOrientation(LinearLayout.VERTICAL);
+
+            linearLayoutV1 = new LinearLayout(getBaseContext());
+            linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
+
+            buttonBook = new Button(getBaseContext());
+            buttonBook.setText("Book");
+
+            radioGroup = new RadioGroup(getBaseContext());
+
+            scrollView1 = new ScrollView(getBaseContext());
+            textViewDescription = new TextView(getBaseContext());
+
+            textViewTime1 = new TextView(getBaseContext());
+            textViewTime2 = new TextView(getBaseContext());
+            textViewTime3 = new TextView(getBaseContext());
+            textViewTime3.setText("HELDAG");
+            textViewDescription.setText(conferenceRoomDescription);
+            textViewDescription.setWidth(200);
+            textViewDescription.setHeight(100);
+
+            radioButton1 = new RadioButton(getBaseContext());
+                radioButton1.setText(preNoonPrice + " kr");
+            radioButton2 = new RadioButton(getBaseContext());
+                radioButton2.setText(afterNoonPrice + " kr");
+            radioButton3 = new RadioButton(getBaseContext());
+                radioButton3.setText(fullDayPrice + " kr");
+
+            textViewPrice1 = new TextView(getBaseContext());
+            textViewPrice2 = new TextView(getBaseContext());
+            textViewPrice3 = new TextView(getBaseContext());
+
+            tableLayout.addView(tableRow);
+                tableRow.addView(linearLayoutH);
+                    linearLayoutH.addView(imageView);
+                        linearLayoutH.removeView(scrollView1);
+                    linearLayoutH.addView(scrollView1);
+                        scrollView1.addView(textViewDescription);
+                    linearLayoutH.addView(linearLayoutH1);
+                        linearLayoutH1.addView(linearLayoutV);
+                            linearLayoutV.addView(textViewTime1);
+
+                                linearLayoutV.removeView(textViewTime2);
+                            linearLayoutV.addView(textViewTime2);
+
+                                linearLayoutV.removeView(textViewTime3);
+                            linearLayoutV.addView(textViewTime3);
+
+                        linearLayoutH1.addView(linearLayoutV1);
+                            linearLayoutV1.addView(radioGroup);
+
+                        linearLayoutH.removeView(buttonBook);
+                    linearLayoutH.addView(buttonBook);
+
+        switch (block){
+            case 31:
+                textViewTime1.setText("FÖRMIDDAG \n" + hoursAvailableFrom +" - " + hoursAvailableTo);
+                radioGroup.addView(radioButton1);
+                radioGroup.addView(radioButton3);
+
+                break;
+            case 32:
+                textViewTime2.setText("EFTERMIDDAG \n" + hoursAvailableFrom +" - " + hoursAvailableTo);
+                radioGroup.addView(radioButton2);
+                radioGroup.addView(radioButton3);
+
+                break;
+        }
+
+    }
+
+}
 

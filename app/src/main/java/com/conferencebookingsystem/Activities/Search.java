@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -34,6 +31,7 @@ import com.conferencebookingsystem.API.CityList;
 import com.conferencebookingsystem.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -60,7 +58,7 @@ public class Search extends AppCompatActivity {
     EditText seats;
     LinearLayout linearLayoutH, linearLayoutV;
     Spinner spinner;
-
+    String selectedPlantId = null;
     HashMap<Integer, String> listOfCities;
     private String selectedCityOnSpinner;
     private static final String tag = "Search";
@@ -68,6 +66,7 @@ public class Search extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener DateListener;
     AsyncTask<String, Void, String> asyncSearchAPI;
     private RequestQueue requestQueue;
+    int ii, aa=0, clickedButtonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +100,7 @@ public class Search extends AppCompatActivity {
         buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectedPlantId = null;
                 if (DataHolder.getPeople() == null) {
                     DataHolder.setPeople("5");
                 } else {
@@ -108,7 +108,9 @@ public class Search extends AppCompatActivity {
                 }
                 asyncSearchAPI = new RestConnectionSearch();
                 asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
+                System.out.println("The string value is: " + jsonSearchParam());
             }
+
         });
 
 
@@ -252,10 +254,9 @@ public class Search extends AppCompatActivity {
         String jsonSearchParam = "{" +
                 "    \"cityId\": "+DataHolder.getCity()+"," +
                 "    \"seats\": "+DataHolder.getPeople()+"," +
-                //"    \"priceFrom\": 10," +
-                //"    \"plantId\": 1," +
+                "    \"plantId\": "+ selectedPlantId +"," +
                 "    \"dateTimeFrom\": \""+DataHolder.getDate()+"T09:00:00+02:00\"," +
-                "    \"dateTimeTo\": \""+DataHolder.getDate()+"T12:00:00+02:00\"," +
+                "    \"dateTimeTo\": \""+DataHolder.getDate()+"T17:00:00+02:00\"," +
                 "    \"page\": 1" +
                 "}";
         return jsonSearchParam;
@@ -329,6 +330,7 @@ public class Search extends AppCompatActivity {
         }
 
         protected void onPostExecute(final String result) {
+
             tableLayout.removeAllViews();
             /*Adding dynamic view to the app*/
 
@@ -345,14 +347,11 @@ public class Search extends AppCompatActivity {
                     visitingAddress = (JSONObject) plant.get("visitingAddress");
                     addressPlant.add(visitingAddress);
                     plantFacts = visitingAddress.getString("street");
-                    System.out.println("Address is: " + plantFacts);
-
-//                  JSONObject jsonObject = (JSONObject) list.get(i).get("visitingAddress");
-//                  System.out.println("Visiting address"+ i + jsonObject.getString("street"));
-
             }
 
                 for(int i = 0; i< plantsOverview.length(); i++){
+                    ii = i;
+                    aa++;
                     tableRow = new TableRow(getBaseContext());
                     linearLayoutH = new LinearLayout(getBaseContext());
                     linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
@@ -380,10 +379,20 @@ public class Search extends AppCompatActivity {
                     buttonViewPlant.setWidth(80);
                     buttonViewPlant.setHeight(60);
                     buttonViewPlant.setTextSize(10);
+                    buttonViewPlant.setId(i);
+
                     buttonViewPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            startActivity(new Intent(Search.this, Booking.class));
+                            try {
+                                selectedPlantId = plantIDs.get(v.getId()).toString();
+                                System.out.println("The selected plant id: " + selectedPlantId);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            startActivity(new Intent(Search.this, Booking.class).putExtra("searchParam",jsonSearchParam()));
+
                         }
                     });
 
