@@ -180,8 +180,6 @@ public class Login extends AppCompatActivity {
             else{
                 Toast.makeText(Login.this,"Wrong username.Please try again..",Toast.LENGTH_SHORT).show();
             }
-
         }
     }
-
 }

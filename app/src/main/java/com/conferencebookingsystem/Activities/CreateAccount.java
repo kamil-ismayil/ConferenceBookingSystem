@@ -186,8 +186,6 @@ createButtonLock();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
-        }
+    }
 }
