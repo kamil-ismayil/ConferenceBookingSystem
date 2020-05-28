@@ -51,6 +51,8 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class Search extends AppCompatActivity {
 
     Button buttonSearch, buttonViewPlant;
@@ -363,7 +365,7 @@ public class Search extends AppCompatActivity {
                     ii = i;
                     aa++;
                     tableRow = new TableRow(getBaseContext());
-                    tableRow.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                    tableRow.setLayoutParams(new TableRow.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, WRAP_CONTENT));
                     tableRow.setBackgroundResource(R.drawable.table_divider);
 
 
@@ -383,13 +385,16 @@ public class Search extends AppCompatActivity {
                     textViewPrice.setHeight(100);
                     textViewPrice.setTextColor(Color.BLACK);
                     textViewPrice.setTypeface(monterrat);
+                    LinearLayout.LayoutParams priceTxt = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+                    priceTxt.setMargins(20,10,10,10);
+                    textViewPrice.setLayoutParams(priceTxt);
 
                     textViewDescription = new TextView(getBaseContext());
                     textViewDescription.setWidth(780);
                     textViewDescription.setTextColor(Color.BLACK);
                     textViewDescription.setTypeface(monterrat);
                     textViewDescription.setBackgroundResource(R.drawable.table_divider);
-                    textViewDescription.setLayoutParams(new LinearLayout.LayoutParams(780, TableLayout.LayoutParams.WRAP_CONTENT));
+                    textViewDescription.setLayoutParams(new LinearLayout.LayoutParams(780, WRAP_CONTENT));
 
                     buttonViewPlant = new Button(getBaseContext());
                     buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
@@ -399,6 +404,9 @@ public class Search extends AppCompatActivity {
                     buttonViewPlant.setTextColor(Color.BLACK);
                     buttonViewPlant.setId(i);
                     buttonViewPlant.setTypeface(monterratBold);
+                    LinearLayout.LayoutParams button = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+                    button.setMargins(20,10,10,10);
+                    buttonViewPlant.setLayoutParams(priceTxt);
 
                     buttonViewPlant.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -416,13 +424,13 @@ public class Search extends AppCompatActivity {
                     });
 
                     scrollView = new ScrollView(getBaseContext());
-                    scrollView.setLayoutParams(new ScrollView.LayoutParams(780, TableLayout.LayoutParams.WRAP_CONTENT));
+                    scrollView.setLayoutParams(new ScrollView.LayoutParams(780, WRAP_CONTENT));
 
 
                     tableLayout.addView(tableRow);
                     TableLayout.LayoutParams tableRowParams=
                             new TableLayout.LayoutParams
-                                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+                                    (TableLayout.LayoutParams.FILL_PARENT, WRAP_CONTENT);
 
                     int leftMargin=2;
                     int topMargin=10;
