@@ -77,12 +77,6 @@ public class Booking extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(Booking.this, Login.class));
-        //normal back button: super.onBackPressed();
-    }
-
     private class RestConnectionSearch extends AsyncTask<String, Void, String> {
         private String responseContent;
         private String Error = null;
@@ -346,8 +340,6 @@ public class Booking extends AppCompatActivity {
         radioGroup.addView(radioButton2);
         radioGroup.addView(radioButton3);
 
-        // trycka på book knappen skickar en till ny sida
-        // listener på radiobuttons
         // room id och tid
         //Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
 

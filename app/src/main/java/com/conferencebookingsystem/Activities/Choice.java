@@ -20,11 +20,5 @@ public class Choice extends AppCompatActivity {
         setContentView(R.layout.activity_choice);
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(Choice.this, Login.class));
-        //normal back button: super.onBackPressed();
-    }
-
 
 }
