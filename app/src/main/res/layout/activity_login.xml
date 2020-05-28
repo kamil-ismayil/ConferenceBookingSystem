@@ -31,7 +31,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="-55dp"
-            app:srcCompat="@drawable/logo_timetomeet" />
+            app:srcCompat="@drawable/ttmlogo" />
 
         <TextView
             android:id="@+id/textView2"

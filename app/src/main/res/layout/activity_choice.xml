@@ -24,8 +24,7 @@
         android:layout_marginTop="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_timetomeet"
-        tools:srcCompat="@drawable/logo_timetomeet" />
+        app:srcCompat="@drawable/ttmlogo" />
 
     <ScrollView
         android:id="@+id/scrollViewChoice"
