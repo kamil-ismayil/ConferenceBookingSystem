@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Choice"></activity>
+        <activity android:name=".Activities.Confirm"></activity>
+        <activity android:name=".Activities.Choice" />
         <activity
             android:name=".Activities.Search"
             android:windowSoftInputMode="adjustPan" />
