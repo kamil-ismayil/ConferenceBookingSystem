@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,10 +32,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.net.ssl.HttpsURLConnection;
 
-public class Booking extends AppCompatActivity {
+public class Booking extends AppCompatActivity{
 
+    Button buttons[] = null;
+    RadioButton radioButton[] = null;
     ScrollView scrollView, scrollView1;
     TableLayout tableLayout;
     TableRow tableRow, tableRow1;
@@ -45,20 +50,56 @@ public class Booking extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButton1, radioButton2, radioButton3;
 
-
     String jsonSearchParam;
     AsyncTask<String, Void, String> asyncSearchAPI;
-    int priceAM, pricePM, conferenceRoomId, conferenceRoomAvailabilityId, priceFull, block;
+    int priceAM, pricePM, conferenceRoomId, conferenceRoomAvailabilityId, priceFull, count=0, buttonIndex,
+        clickedRadiobuttonId, countR = 0, countRA = 0, quotient, remainder;
     String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, imageURL,
             preNoonAvailabilityHourStart, preNoonAvailabilityHourEnd, afterNoonAvailabilityHourStart, afterNoonAvailabilityHourEnd;
 
-    private JSONArray seats, images, roomIDs, rooms;
-    private JSONObject jsonObject, room, image, seat;
+    private JSONArray seats, images, roomIDs, rooms, conferenceRoomAvailability;
+    private JSONObject jsonObject, room, image, seat, conferenceRoomAvailability_room;
 
     int aaa=0;
+    int[] blockSelected, conferenceRoomIds;
 
     ArrayList<JSONObject> seatList = new ArrayList<>();
     ArrayList<JSONObject> imageList = new ArrayList<>();
+    ArrayList<JSONObject> conferenceRoomAvailabilityList = new ArrayList<>();
+
+    private View.OnClickListener btnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            for(int i=0; i<buttons.length;i++){
+                if(buttons[i].getId() == view.getId()){
+                    buttonIndex = i;
+                    System.out.println("The clicked button has an ID: "+ buttonIndex);
+                    System.out.println("The blockselected has an ID: "+ blockSelected[buttonIndex]);
+                }
+            }
+            try {
+                for(int a=0; a<conferenceRoomAvailabilityList.size(); a++) {
+                    if ((conferenceRoomAvailabilityList.get(a).getInt("block") == blockSelected[buttonIndex]) &&
+                        (conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom") == conferenceRoomIds[buttonIndex])) {
+                            conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("id");
+                        System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
+                            startActivity(new Intent(Booking.this, Choice.class));
+                    }else if(blockSelected[buttonIndex] == 33){
+                        if((conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom") == conferenceRoomIds[buttonIndex])){
+                            conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("cra_id_for_full_day");
+                            startActivity(new Intent(Booking.this, Choice.class));
+                            System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
+                            break;
+                        }
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +111,9 @@ public class Booking extends AppCompatActivity {
 
         Intent in = getIntent();
         jsonSearchParam = in.getStringExtra("searchParam");
-
+        count = 0;
         asyncSearchAPI = new RestConnectionSearch();
         asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam);
-
 
     }
 
@@ -81,9 +121,6 @@ public class Booking extends AppCompatActivity {
         private String responseContent;
         private String Error = null;
         private URL url;
-        int a1=0, a2=0, a3=0;
-//        HashMap<Integer, String> imageList = new HashMap<>();
-//        HashMap<Integer, String> seatList = new HashMap<>();
 
         protected void onPreExecute() {
             super.onPreExecute();
@@ -136,12 +173,25 @@ public class Booking extends AppCompatActivity {
         protected void onPostExecute(final String result) {
             try {
                 rooms = jsonObject.getJSONArray("rooms");
+                conferenceRoomAvailability = jsonObject.getJSONArray("conferenceRoomAvailability");
+                System.out.println("conferenceRoomAvailability length is: " + conferenceRoomAvailability.length());
+                buttons = new Button[rooms.length()];
+                blockSelected = new int[rooms.length()];
+                conferenceRoomIds = new int[rooms.length()];
+                radioButton = new RadioButton[rooms.length() * 3];
+
+                for(int i2=0; i2<conferenceRoomAvailability.length(); i2++){
+                    conferenceRoomAvailability_room = conferenceRoomAvailability.getJSONObject(i2);
+                    conferenceRoomAvailabilityList.add(conferenceRoomAvailability_room);
+                }
 
                 for(int i = 0; i< rooms.length(); i++) {
+                    count = i;
                     room = rooms.getJSONObject(i);
                     System.out.println("The number of rooms are: " + rooms.length());
 
                     conferenceRoomId = room.getInt("conferenceRoomId");
+                    conferenceRoomIds[i] = conferenceRoomId;
                     conferenceRoomName = room.getString("conferenceRoomName");
                     conferenceRoomDescription = room.getString("description");
                     
@@ -166,81 +216,61 @@ public class Booking extends AppCompatActivity {
                     for(int i2=0; i2<seats.length(); i2++){
                         seatList.add(seats.getJSONObject(i2));
                     }
-
                     addElements();
-
                 }
 
+                for(Button btn:buttons){
+                    btn.setOnClickListener(btnListener);
+                }
             } catch (JSONException | InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
     public void addElements() throws JSONException, InterruptedException {
         //tableLayout.removeAllViews();
         aaa++;
-        String https = "https:";
-        System.out.println("AddElements being called for: " + aaa);
 
-            tableRow = new TableRow(getBaseContext());
-            tableRow.setBackgroundResource(R.drawable.table_divider);
+        tableRow = new TableRow(getBaseContext());
+        tableRow.setBackgroundResource(R.drawable.table_divider);
 
-            tableRow1 = new TableRow(getBaseContext());
-            tableRow1.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
-            tableRow1.setBackgroundResource(R.drawable.table_divider);
+        tableRow1 = new TableRow(getBaseContext());
+        tableRow1.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        tableRow1.setBackgroundResource(R.drawable.table_divider);
 
-
-            imageView = new ImageView(getBaseContext());
-//            imageView.setMaxWidth(20);
-//            imageView.setMaxHeight(20);
-
-//            for(int i1=0; i1<imageList.size(); i1++) {
-//                System.out.println("The image path is: " + imageList.get(i1).getString("image"));
-//                //Picasso.get().load(https.concat(imageList.get(i1).getString("image"))).into(imageView);
-//                //Thread.sleep(500);
-//            }
-
+        imageView = new ImageView(getBaseContext());
 
         // adding custom font
         Typeface monterrat = ResourcesCompat.getFont(getApplicationContext(),R.font.montserrat);
         Typeface monterratBold = ResourcesCompat.getFont(getApplicationContext(),R.font.montserratbold);
 
-            linearLayoutH = new LinearLayout(getBaseContext());
-            linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayoutH = new LinearLayout(getBaseContext());
+        linearLayoutH.setOrientation(LinearLayout.HORIZONTAL);
 
-            linearLayoutH1 = new LinearLayout(getBaseContext());
-            linearLayoutH1.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayoutH1 = new LinearLayout(getBaseContext());
+        linearLayoutH1.setOrientation(LinearLayout.HORIZONTAL);
 
-            linearLayoutV = new LinearLayout(getBaseContext());
-            linearLayoutV.setOrientation(LinearLayout.VERTICAL);
-            linearLayoutV.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
+        linearLayoutV = new LinearLayout(getBaseContext());
+        linearLayoutV.setOrientation(LinearLayout.VERTICAL);
+        linearLayoutV.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            linearLayoutV1 = new LinearLayout(getBaseContext());
-            linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
+        linearLayoutV1 = new LinearLayout(getBaseContext());
+        linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
 
         linearLayoutV2 = new LinearLayout(getBaseContext());
         linearLayoutV2.setOrientation(LinearLayout.VERTICAL);
         linearLayoutV2.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            buttonBook = new Button(getBaseContext());
-            buttonBook.setText("Book");
-            buttonBook.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
-            buttonBook.setWidth(60);
-            buttonBook.setHeight(40);
-            buttonBook.setTextSize(10);
-            buttonBook.setTextColor(Color.BLACK);
-            buttonBook.setTypeface(monterratBold);
-            buttonBook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    startActivity(new Intent(Booking.this, Choice.class));
-
-                }
-            });
+        buttons[count] = new Button(getBaseContext());
+        buttons[count].setId(count);
+        buttons[count].setWidth(60);
+        buttons[count].setHeight(40);
+        buttons[count].setTextSize(10);
+        buttons[count].getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
+        buttons[count].setTextColor(Color.BLACK);
+        buttons[count].setTypeface(monterratBold);
+        buttons[count].setText("Book");
 
             scrollView1 = new ScrollView(getBaseContext());
             textViewDescription = new TextView(getBaseContext());
@@ -259,35 +289,44 @@ public class Booking extends AppCompatActivity {
             radioGroup = new RadioGroup(getBaseContext());
             radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
 
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    clickedRadiobuttonId = checkedId;
+                    quotient = checkedId/3;
+                    remainder = checkedId%3;
+                    System.out.println("The quotient: "+ quotient + ", remainder: " + remainder);
+                    switch (remainder){
+                        case 0:
+                            blockSelected[quotient] = 31;
+                            break;
+                        case 1:
+                            blockSelected[quotient] = 32;
+                            break;
+                        case 2:
+                            blockSelected[quotient] = 33;
+                            break;
+                    }
+                }
+            });
+
             radioButton1 = new RadioButton(getBaseContext());
-                radioButton1.setText(priceAM + " kr");
-                radioButton1.setTypeface(monterrat);
-                radioButton1.setPadding(0,0,0,38);
-                radioButton1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println(priceAM + " kr");
-                    }
-                });
+            radioButton1.setId(countR++);
+            radioButton1.setText(priceAM + " kr");
+            radioButton1.setTypeface(monterrat);
+            radioButton1.setPadding(0,0,0,38);
+
             radioButton2 = new RadioButton(getBaseContext());
-                radioButton2.setText(pricePM + " kr");
-                radioButton2.setTypeface(monterrat);
-                radioButton2.setPadding(0,0,0,38);
-                radioButton2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println(pricePM + " kr");
-                    }
-                });
+            radioButton2.setId(countR++);
+            radioButton2.setText(pricePM + " kr");
+            radioButton2.setTypeface(monterrat);
+            radioButton2.setPadding(0,0,0,38);
+
             radioButton3 = new RadioButton(getBaseContext());
-                radioButton3.setText(priceFull + " kr");
-                radioButton3.setTypeface(monterrat);
-                radioButton3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println(priceFull + " kr");
-                    }
-                });
+            radioButton3.setId(countR++);
+            radioButton3.setText(priceFull + " kr");
+            radioButton3.setTypeface(monterrat);
+
 
             textViewPrice1 = new TextView(getBaseContext());
             textViewPrice1.setTypeface(monterrat);
@@ -298,7 +337,7 @@ public class Booking extends AppCompatActivity {
 
             tableLayout.addView(linearLayoutV2);
             linearLayoutV2.addView(tableRow1);
-        TableLayout.LayoutParams tableRowParams=
+            TableLayout.LayoutParams tableRowParams=
                 new TableLayout.LayoutParams
                         (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
 
@@ -330,8 +369,9 @@ public class Booking extends AppCompatActivity {
                         linearLayoutH1.addView(linearLayoutV1);
                             linearLayoutV1.addView(radioGroup);
 
-                        linearLayoutH.removeView(buttonBook);
-                    linearLayoutH.addView(buttonBook);
+                        linearLayoutH.removeView(buttons[count]);
+                    linearLayoutH.addView(buttons[count]);
+
 
         textViewTime1.setText("FÖRMIDDAG \n" + preNoonAvailabilityHourStart +" - " + preNoonAvailabilityHourEnd);
         textViewTime2.setText("EFTERMIDDAG \n" + afterNoonAvailabilityHourStart +" - " + afterNoonAvailabilityHourEnd);
