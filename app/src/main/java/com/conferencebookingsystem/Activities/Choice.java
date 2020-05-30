@@ -3,57 +3,214 @@ package com.conferencebookingsystem.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
+import com.conferencebookingsystem.API.FoodbeverageList;
+import com.conferencebookingsystem.API.TechnologyList;
 import com.conferencebookingsystem.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class Choice extends AppCompatActivity {
 
+    RadioButton[] radioButtons;
+    CheckBox[] checkBoxFoodbeverage, checkBoxTechnology;
+
     ScrollView scrollViewChoice;
-    LinearLayout linearLayoutChoice, linearLayoutV1, linearLayoutV2, linearLayoutH1, linearLayoutH2;
+    LinearLayout linearLayoutV1, linearLayoutV2, linearLayoutV3, linearLayoutH1;
+    LinearLayout linearLayoutV4, linearLayoutV5, linearLayoutV6, linearLayoutH2;
+    LinearLayout linearLayoutV7, linearLayoutV8, linearLayoutV9, linearLayoutH3;
     RadioGroup radioGroup;
-    RadioButton radioButton1, radioButton2, radioButton3;
-    CheckBox checkBox1, checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7;
-    CheckBox boxCheck1, boxCheck2, boxCheck3, boxCheck4, boxCheck5, boxCheck6, boxCheck7;
-    EditText editText;
-    TextView furniture, foodAndDrink, equipment, wishes, header, adress, dateAndTime;
-    Button continueBooking;
+    RadioButton radioButton;
     TableLayout tableLayout;
-    TableRow tableRow1, tableRow2, tableRow3, tableRow4;
+    TableRow tableRow1, tableRow2, tableRow3;
+    ArrayList<String> seatList;
+    HashMap<Integer, String> listOfFoodBeverageAll = new HashMap<>();
+    HashMap<Integer, String> listOfTechnologyAll = new HashMap<>();
+    HashMap<Integer, String > listOfFoodBeveragePlant, listOfTechnologyRoom;
+
+    int conferenceRoomNumber, foodbeverageNumber;
+    String chosenPlantId, urlFoodBeverageListPlant, urlTechnology;
+    JSONObject jsonObject;
+    JSONArray foodbeverage, jsonArray;
+    ArrayList<JSONObject> foodbeverageList;
+    AsyncTask<String, Void, String> asyncFoodbeverage;
+    AsyncTask<String, Void, String> asyncTechnology;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
+        scrollViewChoice = findViewById(R.id.scrollViewChoice);
+        tableLayout = findViewById(R.id.tableLayoutChoice);
+        listOfFoodBeveragePlant = new HashMap<>();
+        listOfTechnologyRoom = new HashMap<>();
 
-        
+        Intent in = getIntent();
+        seatList = (ArrayList<String>) in.getSerializableExtra("seatList");
+        conferenceRoomNumber = in.getIntExtra("roomNumber",0);
+        chosenPlantId = in.getStringExtra("plantId");
+        urlFoodBeverageListPlant = "https://dev-be.timetomeet.se/service/rest/plantfoodbeverage/venue/" + chosenPlantId;
+        urlTechnology = "https://dev-be.timetomeet.se/service/rest/conferenceroomtechnology/conferenceroom/" + conferenceRoomNumber;
+
+        System.out.println(urlFoodBeverageListPlant);
+        System.out.println("Hello from Choice class - conf room number: " + conferenceRoomNumber);
+        System.out.println("Hello from Choise class: " + seatList.size() + " " + seatList);
+        System.out.println("Hello from Choice class: plant id - " + chosenPlantId);
+        radioButtons = new RadioButton[seatList.size()];
+
+        FoodbeverageList foodbeverageList = new FoodbeverageList();
+        listOfFoodBeverageAll = foodbeverageList.getFoodbeverageList();
+
+        TechnologyList technologyList = new TechnologyList();
+        listOfTechnologyAll = technologyList.getTechnologyList();
+
+        asyncFoodbeverage = new RestConnection();
+        asyncFoodbeverage.execute(urlFoodBeverageListPlant, "foodbeverage");
+
+        asyncTechnology = new RestConnection();
+        asyncTechnology.execute(urlTechnology, "technology");
+
+        System.out.println("conferenceRoomNumber: " + conferenceRoomNumber);
     }
 
-    public void addChoices() throws JSONException, InterruptedException {
-        //tableLayout.removeAllViews();
+    private class RestConnection extends AsyncTask<String, Void, String> {
+        private String responseContent, choice;
+        private String Error = null;
+        private URL url;
 
-        scrollViewChoice = new ScrollView(getBaseContext());
+        protected void onPreExecute() {
 
-        linearLayoutChoice = new LinearLayout(getBaseContext());
-        linearLayoutChoice.setOrientation(LinearLayout.VERTICAL);
+            super.onPreExecute();
 
-        linearLayoutV1 = new LinearLayout(getBaseContext());
-        linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
+        }
 
-        linearLayoutV2 = new LinearLayout(getBaseContext());
-        linearLayoutV2.setOrientation(LinearLayout.VERTICAL);
+        protected String doInBackground(String... requestData) {
+            BufferedReader reader=null;
+
+            try {
+                url = new URL(requestData[0]);
+                choice = requestData[1];
+
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept","application/json");
+                connection.setDoOutput(true); // True för POST, PUT. False för GET
+
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = reader.readLine()) != null) {
+                    sb.append(line + "  \n");
+                }
+
+                responseContent = sb.toString();
+                jsonArray = new JSONArray(responseContent);
+            }
+            catch(Exception ex) {
+                Error = ex.getMessage();
+                System.out.println("The error message is: " + Error);
+            }
+            finally {
+                try {
+                    reader.close();
+                }
+                catch(Exception ex) {
+
+                }
+            }
+            return responseContent;
+        }
+
+        protected void onPostExecute(final String result) {
+            switch (choice) {
+                case "foodbeverage":
+                    try {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject results = jsonArray.getJSONObject(i);
+                            int foodBeverage = results.getInt("foodBeverage");
+                            System.out.println("FoodbeverageID: " + foodBeverage);
+
+                            for(Map.Entry<Integer, String> entry : listOfFoodBeverageAll.entrySet()) {
+                                if (entry.getKey().equals(foodBeverage)) {
+                                    listOfFoodBeveragePlant.put(entry.getKey(), entry.getValue());
+                                    System.out.println("Food list: " + entry.getKey() + "-" + entry.getValue());
+                                }
+                            }
+
+                        }
+
+                        checkBoxFoodbeverage = new CheckBox[listOfFoodBeveragePlant.size()];
+                        //addChoices(seatList.size(), listOfFoodBeveragePlant.size(),3);
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case "technology":
+                    try {
+                        System.out.println("executing technology----------------");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject results = jsonArray.getJSONObject(i);
+                            int id = results.getInt("id");
+                            int technology = results.getInt("technology");
+                            System.out.println("The size of technologyAll " + listOfTechnologyAll.size());
+
+                            for(Map.Entry<Integer, String> entry : listOfTechnologyAll.entrySet()) {
+                                if (entry.getKey().equals(technology)) {
+                                    listOfTechnologyRoom.put(entry.getKey(), entry.getValue());
+                                    System.out.println("Technology list: " + entry.getKey() + "-" + entry.getValue());
+                                }
+                            }
+                        }
+                        System.out.println("The size of technology list " + listOfTechnologyRoom.size());
+                        checkBoxTechnology = new CheckBox[listOfTechnologyRoom.size()];
+
+
+                    }catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+            }
+
+            if(seatList.size()>0 && listOfFoodBeveragePlant.size()>0 && listOfTechnologyRoom.size()>0){
+                addChoices(seatList.size(), listOfFoodBeveragePlant.size(), listOfTechnologyRoom.size());
+            }
+
+        }
+    }
+
+    public void addChoices(int furnitureNumber,int foodbeverageNumber, int technologyNumber) {
+        tableLayout.removeAllViews();
+
+        tableRow1 = new TableRow(getBaseContext());
+            tableRow1.removeAllViews();
+        tableRow2 = new TableRow(getBaseContext());
+            tableRow2.removeAllViews();
+        tableRow3 = new TableRow(getBaseContext());
+            tableRow3.removeAllViews();
 
         linearLayoutH1 = new LinearLayout(getBaseContext());
         linearLayoutH1.setOrientation(LinearLayout.HORIZONTAL);
@@ -61,91 +218,104 @@ public class Choice extends AppCompatActivity {
         linearLayoutH2 = new LinearLayout(getBaseContext());
         linearLayoutH2.setOrientation(LinearLayout.HORIZONTAL);
 
-        tableRow1 = new TableRow(getBaseContext());
-        tableRow2 = new TableRow(getBaseContext());
-        tableRow3 = new TableRow(getBaseContext());
-        tableRow4 = new TableRow(getBaseContext());
+        linearLayoutH3 = new LinearLayout(getBaseContext());
+        linearLayoutH3.setOrientation(LinearLayout.HORIZONTAL);
 
-        radioGroup = new RadioGroup(getBaseContext());
+        linearLayoutV1 = new LinearLayout(getBaseContext());
+        linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
 
-        radioButton1 = new RadioButton(getBaseContext());
-        radioButton2 = new RadioButton(getBaseContext());
-        radioButton3 = new RadioButton(getBaseContext());
+        linearLayoutV2 = new LinearLayout(getBaseContext());
+        linearLayoutV2.setOrientation(LinearLayout.VERTICAL);
 
-        checkBox1 = new CheckBox(getBaseContext());
-        checkBox2 = new CheckBox(getBaseContext());
-        checkBox3 = new CheckBox(getBaseContext());
-        checkBox4 = new CheckBox(getBaseContext());
-        checkBox5 = new CheckBox(getBaseContext());
-        checkBox6 = new CheckBox(getBaseContext());
-        checkBox7 = new CheckBox(getBaseContext());
+        linearLayoutV3 = new LinearLayout(getBaseContext());
+        linearLayoutV3.setOrientation(LinearLayout.VERTICAL);
 
-        boxCheck1 = new CheckBox(getBaseContext());
-        boxCheck2 = new CheckBox(getBaseContext());
-        boxCheck3 = new CheckBox(getBaseContext());
-        boxCheck4 = new CheckBox(getBaseContext());
-        boxCheck5 = new CheckBox(getBaseContext());
-        boxCheck6 = new CheckBox(getBaseContext());
-        boxCheck7 = new CheckBox(getBaseContext());
+        linearLayoutV4 = new LinearLayout(getBaseContext());
+        linearLayoutV4.setOrientation(LinearLayout.VERTICAL);
 
-        editText = new EditText(getBaseContext());
+        linearLayoutV5 = new LinearLayout(getBaseContext());
+        linearLayoutV5.setOrientation(LinearLayout.VERTICAL);
 
-        furniture = new TextView(getBaseContext());
-            furniture.setText("Furnitures");
-        foodAndDrink = new TextView(getBaseContext());
-            foodAndDrink.setText("Food and Drinks");
-        equipment = new TextView(getBaseContext());
-            equipment.setText("Equipments");
-        wishes = new TextView(getBaseContext());
-            wishes.setText("Further wishes");
+        linearLayoutV6 = new LinearLayout(getBaseContext());
+        linearLayoutV6.setOrientation(LinearLayout.VERTICAL);
 
-        header = new TextView(getBaseContext());
-        adress = new TextView(getBaseContext());
-        dateAndTime = new TextView(getBaseContext());
+        linearLayoutV7 = new LinearLayout(getBaseContext());
+        linearLayoutV7.setOrientation(LinearLayout.VERTICAL);
 
-        continueBooking = new Button(getBaseContext());
+        linearLayoutV8 = new LinearLayout(getBaseContext());
+        linearLayoutV8.setOrientation(LinearLayout.VERTICAL);
 
-        tableLayout = new TableLayout(getBaseContext());
-
-// Layout starts here:
-        tableLayout.addView(linearLayoutChoice);
-            linearLayoutChoice.addView(furniture);
-            linearLayoutChoice.addView(tableRow1);
-                tableRow1.addView(radioGroup);
-                    radioGroup.addView(radioButton1);
-                    radioGroup.addView(radioButton2);
-                    radioGroup.addView(radioButton3);
-
-            linearLayoutChoice.addView(equipment);
-            linearLayoutChoice.addView(tableRow2);
-
-            // for loop här
-                tableRow2.addView(checkBox1);
-                tableRow2.addView(checkBox2);
-                tableRow2.addView(checkBox3);
-                tableRow2.addView(checkBox4);
-                tableRow2.addView(checkBox5);
-                tableRow2.addView(checkBox6);
-                tableRow2.addView(checkBox7);
-
-            linearLayoutChoice.addView(foodAndDrink);
-            linearLayoutChoice.addView(tableRow3);
-
-            // for loop här
-                tableRow3.addView(boxCheck1);
-                tableRow3.addView(boxCheck2);
-                tableRow3.addView(boxCheck3);
-                tableRow3.addView(boxCheck4);
-                tableRow3.addView(boxCheck5);
-                tableRow3.addView(boxCheck6);
-                tableRow3.addView(boxCheck7);
-
-            linearLayoutChoice.addView(wishes);
-            linearLayoutChoice.addView(tableRow4);
-                tableRow4.addView(editText);
-                tableRow4.addView(continueBooking);
+        linearLayoutV9 = new LinearLayout(getBaseContext());
+        linearLayoutV9.setOrientation(LinearLayout.VERTICAL);
 
 
+        tableLayout.addView(tableRow1);
+        tableLayout.addView(tableRow2);
+        tableLayout.addView(tableRow3);
+
+            tableRow1.addView(linearLayoutH1);
+                linearLayoutH1.addView(linearLayoutV1);
+                linearLayoutH1.addView(linearLayoutV2);
+                linearLayoutH1.addView(linearLayoutV3);
+
+                //adding room furniture
+                for(int i=0; i<furnitureNumber; i++){
+                    radioButtons[i] = new RadioButton(getBaseContext());
+                    radioButtons[i].setId(i);
+                    radioButtons[i].setText(seatList.get(i));
+                    if(i<3){
+                        linearLayoutV1.addView(radioButtons[i]);
+                    } else if(i>=3 && i<6){
+                        linearLayoutV2.addView(radioButtons[i]);
+                    }else{
+                        linearLayoutV3.addView(radioButtons[i]);
+                    }
+                }
+
+            tableRow2.addView(linearLayoutH2);
+                linearLayoutH2.addView(linearLayoutV4);
+                linearLayoutH2.addView(linearLayoutV5);
+                linearLayoutH2.addView(linearLayoutV6);
+
+                //adding foodbeverage
+                for(int i1=0; i1<foodbeverageNumber; i1++){
+                    checkBoxFoodbeverage[i1] = new CheckBox(getBaseContext());
+
+                    //checkBoxFoodbeverage[i1].setId(Integer.parseInt(listOfFoodBeveragePlant.get(listOfFoodBeveragePlant.keySet().toArray()[i1])));
+//                    int id= Integer.parseInt(listOfFoodBeveragePlant.get(listOfFoodBeveragePlant.keySet().toArray()[i1]));
+//                        System.out.println("Id to the checkbox is: " + id);
+                    checkBoxFoodbeverage[i1].setId(i1);
+                        System.out.println("Id to qaqa checkbox: " + checkBoxFoodbeverage[i1].getId());
+                    checkBoxFoodbeverage[i1].setText((String) listOfFoodBeveragePlant.values().toArray()[i1]);
+
+                    if(i1<3){
+                        linearLayoutV4.addView(checkBoxFoodbeverage[i1]);
+                    } else if(i1>=3 && i1<6){
+                        linearLayoutV5.addView(checkBoxFoodbeverage[i1]);
+                    }else{
+                        linearLayoutV6.addView(checkBoxFoodbeverage[i1]);
+                    }
+                }
+
+            //adding technology
+            tableRow3.addView(linearLayoutH3);
+            linearLayoutH3.addView(linearLayoutV7);
+            linearLayoutH3.addView(linearLayoutV8);
+            linearLayoutH3.addView(linearLayoutV9);
+
+            for(int i1=0; i1<technologyNumber; i1++){
+                checkBoxTechnology[i1] = new CheckBox(getBaseContext());
+                checkBoxTechnology[i1].setId(i1);
+                checkBoxTechnology[i1].setText((String) listOfTechnologyRoom.values().toArray()[i1]);
+
+                if(i1<3){
+                    linearLayoutV7.addView(checkBoxTechnology[i1]);
+                } else if(i1>=3 && i1<6){
+                    linearLayoutV8.addView(checkBoxTechnology[i1]);
+                }else{
+                    linearLayoutV9.addView(checkBoxTechnology[i1]);
+                }
+            }
     }
 
 

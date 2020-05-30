@@ -95,9 +95,10 @@ public class Search extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String currentDate = year + "-" + (month+1) + "-" + day;
 
-        CityList city = new CityList("https://dev-be.timetomeet.se/service/rest/city/", this);
+        CityList city = new CityList("https://dev-be.timetomeet.se/service/rest/city/", getBaseContext());
         listOfCities = city.getCities();
 
+        System.out.println("List of cities: " + listOfCities);
         // default search settings if nothing is picked
         DataHolder.setDate(currentDate);
         DataHolder.setCity("1");
@@ -236,6 +237,8 @@ public class Search extends AppCompatActivity {
                 System.out.println(currentCity);
 
                 /*getting id of the selected city on the spinner*/
+                System.out.println("City hashmap size: " + listOfCities.size());
+
                 for(Map.Entry<Integer, String> entry: listOfCities.entrySet()){
                     if(entry.getValue().equals(selectedCityOnSpinner)){
                         DataHolder.setCity(String.valueOf(entry.getKey()));
@@ -418,7 +421,10 @@ public class Search extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            startActivity(new Intent(Search.this, Booking.class).putExtra("searchParam",jsonSearchParam()));
+                            startActivity(new Intent(Search.this, Booking.class)
+                                    .putExtra("searchParam",jsonSearchParam())
+                                    .putExtra("plantId", selectedPlantId)
+                            );
 
                         }
                     });

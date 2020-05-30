@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -30,9 +31,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -54,7 +58,7 @@ public class Booking extends AppCompatActivity{
     AsyncTask<String, Void, String> asyncSearchAPI;
     int priceAM, pricePM, conferenceRoomId, conferenceRoomAvailabilityId, priceFull, count=0, buttonIndex,
         clickedRadiobuttonId, countR = 0, countRA = 0, quotient, remainder;
-    String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, imageURL,
+    String conferenceRoomName, conferenceRoomDescription, seat_name, hoursAvailableFrom, hoursAvailableTo, chosenPlantId,
             preNoonAvailabilityHourStart, preNoonAvailabilityHourEnd, afterNoonAvailabilityHourStart, afterNoonAvailabilityHourEnd;
 
     private JSONArray seats, images, roomIDs, rooms, conferenceRoomAvailability;
@@ -63,9 +67,11 @@ public class Booking extends AppCompatActivity{
     int aaa=0;
     int[] blockSelected, conferenceRoomIds;
 
+    ArrayList<JSONArray> seatListArray = new ArrayList<>();
     ArrayList<JSONObject> seatList = new ArrayList<>();
     ArrayList<JSONObject> imageList = new ArrayList<>();
     ArrayList<JSONObject> conferenceRoomAvailabilityList = new ArrayList<>();
+    ArrayList<String> seatListString = new ArrayList<>();
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
@@ -81,14 +87,38 @@ public class Booking extends AppCompatActivity{
                 for(int a=0; a<conferenceRoomAvailabilityList.size(); a++) {
                     if ((conferenceRoomAvailabilityList.get(a).getInt("block") == blockSelected[buttonIndex]) &&
                         (conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom") == conferenceRoomIds[buttonIndex])) {
+                        System.out.println("The room number is: " + conferenceRoomIds[buttonIndex]);
+
+                        for(int a2=0; a2<seatListArray.get(buttonIndex).length();a2++){
+                            seatListString.add(seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
+                            //System.out.println("The seats are " + seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
+                        }
+
                             conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("id");
                         System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
-                            startActivity(new Intent(Booking.this, Choice.class));
+                            startActivity(new Intent(Booking.this, Choice.class)
+                                    .putExtra("seatList", seatListString)
+                                    .putExtra("plantId", chosenPlantId)
+                                    .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
+
+                            );
                     }else if(blockSelected[buttonIndex] == 33){
                         if((conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom") == conferenceRoomIds[buttonIndex])){
                             conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("cra_id_for_full_day");
-                            startActivity(new Intent(Booking.this, Choice.class));
                             System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
+
+                            for(int a2=0; a2<seatListArray.get(buttonIndex).length();a2++){
+                                seatListString.add(seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
+                                //System.out.println("The seats are " + seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
+                            }
+
+                            startActivity(new Intent(Booking.this, Choice.class)
+                                    .putExtra("seatList", seatListString)
+                                    .putExtra("plantId", chosenPlantId)
+                                    .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
+
+                            );
+
                             break;
                         }
                     }
@@ -111,6 +141,7 @@ public class Booking extends AppCompatActivity{
 
         Intent in = getIntent();
         jsonSearchParam = in.getStringExtra("searchParam");
+        chosenPlantId = in.getStringExtra("plantId");
         count = 0;
         asyncSearchAPI = new RestConnectionSearch();
         asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam);
@@ -153,6 +184,7 @@ public class Booking extends AppCompatActivity{
 
                 responseContent = sb.toString();
                 jsonObject = new JSONObject(responseContent);
+
             }
             catch(Exception ex) {
                 Error = ex.getMessage();
@@ -208,6 +240,8 @@ public class Booking extends AppCompatActivity{
                         System.out.println("The number of images are: " + images.length());
                     seats = room.getJSONArray("seats");
                         System.out.println("The number of seats are: " + seats.length());
+
+                    seatListArray.add(seats);
 
                     for(int i1=0;i1<images.length();i1++) {
                         imageList.add(images.getJSONObject(i1));
@@ -272,74 +306,74 @@ public class Booking extends AppCompatActivity{
         buttons[count].setTypeface(monterratBold);
         buttons[count].setText("Book");
 
-            scrollView1 = new ScrollView(getBaseContext());
-            textViewDescription = new TextView(getBaseContext());
+        scrollView1 = new ScrollView(getBaseContext());
+        textViewDescription = new TextView(getBaseContext());
 
-            textViewTime1 = new TextView(getBaseContext());
-            textViewTime1.setTypeface(monterrat);
-            textViewTime2 = new TextView(getBaseContext());
-            textViewTime2.setTypeface(monterrat);
-            textViewTime3 = new TextView(getBaseContext());
-            textViewTime3.setTypeface(monterrat);
-            textViewTime3.setText("HELDAG");
+        textViewTime1 = new TextView(getBaseContext());
+        textViewTime1.setTypeface(monterrat);
+        textViewTime2 = new TextView(getBaseContext());
+        textViewTime2.setTypeface(monterrat);
+        textViewTime3 = new TextView(getBaseContext());
+        textViewTime3.setTypeface(monterrat);
+        textViewTime3.setText("HELDAG");
 
-            textViewDescription.setText(conferenceRoomDescription);
-            textViewDescription.setTypeface(monterrat);
+        textViewDescription.setText(conferenceRoomDescription);
+        textViewDescription.setTypeface(monterrat);
 
-            radioGroup = new RadioGroup(getBaseContext());
-            radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
+        radioGroup = new RadioGroup(getBaseContext());
+        radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
 
-            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    clickedRadiobuttonId = checkedId;
-                    quotient = checkedId/3;
-                    remainder = checkedId%3;
-                    System.out.println("The quotient: "+ quotient + ", remainder: " + remainder);
-                    switch (remainder){
-                        case 0:
-                            blockSelected[quotient] = 31;
-                            break;
-                        case 1:
-                            blockSelected[quotient] = 32;
-                            break;
-                        case 2:
-                            blockSelected[quotient] = 33;
-                            break;
-                    }
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                clickedRadiobuttonId = checkedId;
+                quotient = checkedId/3;
+                remainder = checkedId%3;
+                System.out.println("The quotient: "+ quotient + ", remainder: " + remainder);
+                switch (remainder){
+                    case 0:
+                        blockSelected[quotient] = 31;
+                        break;
+                    case 1:
+                        blockSelected[quotient] = 32;
+                        break;
+                    case 2:
+                        blockSelected[quotient] = 33;
+                        break;
                 }
-            });
+            }
+        });
 
-            radioButton1 = new RadioButton(getBaseContext());
-            radioButton1.setId(countR++);
-            radioButton1.setText(priceAM + " kr");
-            radioButton1.setTypeface(monterrat);
-            radioButton1.setPadding(0,0,0,38);
+        radioButton1 = new RadioButton(getBaseContext());
+        radioButton1.setId(countR++);
+        radioButton1.setText(priceAM + " kr");
+        radioButton1.setTypeface(monterrat);
+        radioButton1.setPadding(0,0,0,38);
 
-            radioButton2 = new RadioButton(getBaseContext());
-            radioButton2.setId(countR++);
-            radioButton2.setText(pricePM + " kr");
-            radioButton2.setTypeface(monterrat);
-            radioButton2.setPadding(0,0,0,38);
+        radioButton2 = new RadioButton(getBaseContext());
+        radioButton2.setId(countR++);
+        radioButton2.setText(pricePM + " kr");
+        radioButton2.setTypeface(monterrat);
+        radioButton2.setPadding(0,0,0,38);
 
-            radioButton3 = new RadioButton(getBaseContext());
-            radioButton3.setId(countR++);
-            radioButton3.setText(priceFull + " kr");
-            radioButton3.setTypeface(monterrat);
+        radioButton3 = new RadioButton(getBaseContext());
+        radioButton3.setId(countR++);
+        radioButton3.setText(priceFull + " kr");
+        radioButton3.setTypeface(monterrat);
 
 
-            textViewPrice1 = new TextView(getBaseContext());
-            textViewPrice1.setTypeface(monterrat);
-            textViewPrice2 = new TextView(getBaseContext());
-            textViewPrice2.setTypeface(monterrat);
-            textViewPrice3 = new TextView(getBaseContext());
-            textViewPrice3.setTypeface(monterrat);
+        textViewPrice1 = new TextView(getBaseContext());
+        textViewPrice1.setTypeface(monterrat);
+        textViewPrice2 = new TextView(getBaseContext());
+        textViewPrice2.setTypeface(monterrat);
+        textViewPrice3 = new TextView(getBaseContext());
+        textViewPrice3.setTypeface(monterrat);
 
-            tableLayout.addView(linearLayoutV2);
-            linearLayoutV2.addView(tableRow1);
-            TableLayout.LayoutParams tableRowParams=
-                new TableLayout.LayoutParams
-                        (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+        tableLayout.addView(linearLayoutV2);
+        linearLayoutV2.addView(tableRow1);
+        TableLayout.LayoutParams tableRowParams=
+            new TableLayout.LayoutParams
+                    (TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
 
         int leftMargin=2;
         int topMargin=30;
