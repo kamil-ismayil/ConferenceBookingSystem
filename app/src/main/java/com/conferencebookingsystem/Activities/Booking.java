@@ -72,6 +72,7 @@ public class Booking extends AppCompatActivity{
     ArrayList<JSONObject> imageList = new ArrayList<>();
     ArrayList<JSONObject> conferenceRoomAvailabilityList = new ArrayList<>();
     ArrayList<String> seatListString = new ArrayList<>();
+    HashMap<Integer, String> seatingListHashmap = new HashMap<>();
 
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
@@ -97,6 +98,7 @@ public class Booking extends AppCompatActivity{
                             conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("id");
                         System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
                             startActivity(new Intent(Booking.this, Choice.class)
+                                    .putExtra("seatingHashmap", seatingListHashmap)
                                     .putExtra("seatList", seatListString)
                                     .putExtra("plantId", chosenPlantId)
                                     .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
@@ -113,6 +115,7 @@ public class Booking extends AppCompatActivity{
                             }
 
                             startActivity(new Intent(Booking.this, Choice.class)
+                                    .putExtra("seatingHashmap", seatingListHashmap)
                                     .putExtra("seatList", seatListString)
                                     .putExtra("plantId", chosenPlantId)
                                     .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
@@ -237,9 +240,7 @@ public class Booking extends AppCompatActivity{
                     afterNoonAvailabilityHourEnd = room.getString("afterNoonAvailabilityHourEnd");
 
                     images = room.getJSONArray("images");
-                        System.out.println("The number of images are: " + images.length());
                     seats = room.getJSONArray("seats");
-                        System.out.println("The number of seats are: " + seats.length());
 
                     seatListArray.add(seats);
 
@@ -248,6 +249,8 @@ public class Booking extends AppCompatActivity{
                     }
 
                     for(int i2=0; i2<seats.length(); i2++){
+                        JSONObject s = seats.getJSONObject(i2);
+                        seatingListHashmap.put(s.getInt("id"), s.getString("seat_name"));
                         seatList.add(seats.getJSONObject(i2));
                     }
                     addElements();
