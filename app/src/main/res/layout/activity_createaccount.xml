@@ -186,7 +186,7 @@
                         <EditText
                             android:id="@+id/txtFirstName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:autoText="false"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
@@ -197,7 +197,7 @@
                         <EditText
                             android:id="@+id/txtLastName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
                             android:inputType="textPersonName"
@@ -207,7 +207,7 @@
                         <EditText
                             android:id="@+id/txtUserName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:digits="abcdefghijklmnopqrstuvwxyzåäö1234567890@.-_"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
@@ -218,7 +218,7 @@
                         <EditText
                             android:id="@+id/txtPassword"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:editable="false"
                             android:ems="10"
                             android:enabled="false"
@@ -229,7 +229,7 @@
                         <EditText
                             android:id="@+id/txtEmail"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:digits="abcdefghijklmnopqrstuvwxyzåäö1234567890@.-_"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
@@ -240,7 +240,7 @@
                         <EditText
                             android:id="@+id/txtPhone"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="49dp"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
                             android:inputType="number"
@@ -250,7 +250,7 @@
                         <EditText
                             android:id="@+id/txtCompany"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
                             android:inputType="textPersonName"
@@ -270,7 +270,7 @@
                         <EditText
                             android:id="@+id/txtStreet"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="48dp"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
                             android:inputType="textPostalAddress"
@@ -290,7 +290,7 @@
                         <EditText
                             android:id="@+id/txtCity"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="51dp"
                             android:ems="10"
                             android:fontFamily="@font/montserrat"
                             android:inputType="textPersonName"
