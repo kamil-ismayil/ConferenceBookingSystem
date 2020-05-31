@@ -1,11 +1,16 @@
 package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -13,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.conferencebookingsystem.API.FoodbeverageList;
 import com.conferencebookingsystem.API.TechnologyList;
@@ -37,6 +43,8 @@ public class Choice extends AppCompatActivity {
     CheckBox[] checkBoxFoodbeverage = null, checkBoxTechnology = null;
 
     ScrollView scrollViewChoice;
+    TextView textView1, textView2, textView3;
+    Button confirm;
     LinearLayout linearLayoutV1, linearLayoutV2, linearLayoutV3, linearLayoutH1;
     LinearLayout linearLayoutV4, linearLayoutV5, linearLayoutV6, linearLayoutH2;
     LinearLayout linearLayoutV7, linearLayoutV8, linearLayoutV9, linearLayoutH3;
@@ -259,12 +267,23 @@ public class Choice extends AppCompatActivity {
     public void addChoices(int furnitureNumber,int foodbeverageNumber, int technologyNumber) {
         tableLayout.removeAllViews();
 
+        Typeface monterrat = ResourcesCompat.getFont(getApplicationContext(),R.font.montserrat);
+        Typeface monterratBold = ResourcesCompat.getFont(getApplicationContext(),R.font.montserratbold);
+
         tableRow1 = new TableRow(getBaseContext());
-            tableRow1.removeAllViews();
+        tableRow1.removeAllViews();
+        tableRow1.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        tableRow1.setBackgroundResource(R.drawable.table_divider);
+
         tableRow2 = new TableRow(getBaseContext());
-            tableRow2.removeAllViews();
+        tableRow2.removeAllViews();
+        tableRow2.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        tableRow2.setBackgroundResource(R.drawable.table_divider);
+
         tableRow3 = new TableRow(getBaseContext());
-            tableRow3.removeAllViews();
+        tableRow3.removeAllViews();
+        tableRow3.setLayoutParams(new ScrollView.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        tableRow3.setBackgroundResource(R.drawable.table_divider);
 
         linearLayoutH1 = new LinearLayout(getBaseContext());
         linearLayoutH1.setOrientation(LinearLayout.HORIZONTAL);
@@ -302,10 +321,41 @@ public class Choice extends AppCompatActivity {
         linearLayoutV9 = new LinearLayout(getBaseContext());
         linearLayoutV9.setOrientation(LinearLayout.VERTICAL);
 
+        textView1 = new TextView(getBaseContext());
+        textView1.setText("Seating");
 
+        textView2 = new TextView(getBaseContext());
+        textView2.setText("Food & Drinks");
+
+        textView3 = new TextView(getBaseContext());
+        textView3.setText("Technology");
+
+        confirm = new Button(getBaseContext());
+        confirm.setWidth(60);
+        confirm.setHeight(40);
+        confirm.setTextSize(10);
+        confirm.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
+        confirm.setTextColor(Color.BLACK);
+        confirm.setTypeface(monterratBold);
+        confirm.setPadding(0,100,0,50);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        tableLayout.addView(textView1);
         tableLayout.addView(tableRow1);
+
+        tableLayout.addView(textView2);
         tableLayout.addView(tableRow2);
+
+        tableLayout.addView(textView3);
         tableLayout.addView(tableRow3);
+
+        tableLayout.addView(confirm);
 
             tableRow1.addView(linearLayoutH1);
                 linearLayoutH1.addView(linearLayoutV1);

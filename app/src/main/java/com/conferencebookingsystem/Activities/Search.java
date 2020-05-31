@@ -385,7 +385,7 @@ public class Search extends AppCompatActivity {
 
                     textViewPrice = new TextView(getBaseContext());
                     textViewPrice.setWidth(130);
-                    textViewPrice.setHeight(100);
+                    textViewPrice.setHeight(180);
                     textViewPrice.setTextColor(Color.BLACK);
                     textViewPrice.setTypeface(monterrat);
                     LinearLayout.LayoutParams priceTxt = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
@@ -462,7 +462,7 @@ public class Search extends AppCompatActivity {
                                     );
                         linearLayoutH.addView(linearLayoutV);
                             linearLayoutV.addView(textViewPrice);
-                            textViewPrice.setText("Price from: " + listPlant.get(i).getString("priceFrom"));
+                            textViewPrice.setText("Price from: \n" + listPlant.get(i).getString("priceFrom"));
 
                             a2++;
                             if(a2==1){
