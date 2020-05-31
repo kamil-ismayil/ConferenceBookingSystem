@@ -10,11 +10,13 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -45,6 +47,7 @@ public class Choice extends AppCompatActivity {
     ScrollView scrollViewChoice;
     TextView textView1, textView2, textView3;
     Button confirm;
+    RelativeLayout relativeLayout;
     LinearLayout linearLayoutV1, linearLayoutV2, linearLayoutV3, linearLayoutH1;
     LinearLayout linearLayoutV4, linearLayoutV5, linearLayoutV6, linearLayoutH2;
     LinearLayout linearLayoutV7, linearLayoutV8, linearLayoutV9, linearLayoutH3;
@@ -323,25 +326,32 @@ public class Choice extends AppCompatActivity {
 
         textView1 = new TextView(getBaseContext());
         textView1.setText("Seating");
+        textView1.setTypeface(monterrat);
 
         textView2 = new TextView(getBaseContext());
         textView2.setText("Food & Drinks");
+        textView2.setTypeface(monterrat);
 
         textView3 = new TextView(getBaseContext());
         textView3.setText("Technology");
+        textView3.setTypeface(monterrat);
+
+
+        /// hmm
+        relativeLayout = new RelativeLayout(getBaseContext());
+
+        radioGroup = new RadioGroup(getBaseContext());
 
         confirm = new Button(getBaseContext());
-        confirm.setWidth(60);
-        confirm.setHeight(40);
         confirm.setTextSize(10);
         confirm.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
         confirm.setTextColor(Color.BLACK);
         confirm.setTypeface(monterratBold);
-        confirm.setPadding(0,100,0,50);
+        confirm.setText("Confirm");
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(Choice.this, Confirm.class));
             }
         });
 
@@ -357,22 +367,30 @@ public class Choice extends AppCompatActivity {
 
         tableLayout.addView(confirm);
 
+
             tableRow1.addView(linearLayoutH1);
-                linearLayoutH1.addView(linearLayoutV1);
-                linearLayoutH1.addView(linearLayoutV2);
-                linearLayoutH1.addView(linearLayoutV3);
+                    // originally
+                //linearLayoutH1.addView(linearLayoutV1);
+                //linearLayoutH1.addView(linearLayoutV2);
+                //linearLayoutH1.addView(linearLayoutV3);
+
+        linearLayoutH1.addView(radioGroup);
 
                 //adding room furniture
                 for(int i=0; i<furnitureNumber; i++){
                     radioButtons[i] = new RadioButton(getBaseContext());
+                    radioButtons[i].setTypeface(monterrat);
                     radioButtons[i].setId(i);
                     radioButtons[i].setText(seatList.get(i));
                     if(i<3){
-                        linearLayoutV1.addView(radioButtons[i]);
+                        //linearLayoutV1.addView(radioButtons[i]
+                        radioGroup.addView(radioButtons[i]);
                     } else if(i>=3 && i<6){
-                        linearLayoutV2.addView(radioButtons[i]);
+                        //linearLayoutV2.addView(radioButtons[i]
+                        radioGroup.addView(radioButtons[i]);
                     }else{
-                        linearLayoutV3.addView(radioButtons[i]);
+                        //linearLayoutV1.addView(radioButtons[i]
+                        radioGroup.addView(radioButtons[i]);
                     }
                 }
 
@@ -388,6 +406,7 @@ public class Choice extends AppCompatActivity {
                 //adding foodbeverage
                 for(int i1=0; i1<foodbeverageNumber; i1++){
                     checkBoxFoodbeverage[i1] = new CheckBox(getBaseContext());
+                    checkBoxFoodbeverage[i1].setTypeface(monterrat);
                     checkBoxFoodbeverage[i1].setId((int) listOfFoodBeveragePlant.keySet().toArray()[i1]);
                     checkBoxFoodbeverage[i1].setText((String) listOfFoodBeveragePlant.values().toArray()[i1]);
 
@@ -412,6 +431,7 @@ public class Choice extends AppCompatActivity {
 
             for(int i1=0; i1<technologyNumber; i1++){
                 checkBoxTechnology[i1] = new CheckBox(getBaseContext());
+                checkBoxTechnology[i1].setTypeface(monterrat);
                 checkBoxTechnology[i1].setId((int) listOfTechnologyRoom.keySet().toArray()[i1]);
                 checkBoxTechnology[i1].setText((String) listOfTechnologyRoom.values().toArray()[i1]);
 
