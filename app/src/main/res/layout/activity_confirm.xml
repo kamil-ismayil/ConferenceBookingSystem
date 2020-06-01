@@ -235,7 +235,7 @@
                     android:orientation="vertical">
 
                     <EditText
-                        android:id="@+id/txtFirstName2"
+                        android:id="@+id/confirmTxtFirstName2"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="100dp"
@@ -247,7 +247,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName3"
+                        android:id="@+id/confirmTxtLastName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -259,7 +259,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName4"
+                        android:id="@+id/confirmTxtEmail"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -271,7 +271,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName5"
+                        android:id="@+id/confirmTxtPhoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -283,7 +283,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName6"
+                        android:id="@+id/confirmTxtCompanyName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -295,7 +295,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName7"
+                        android:id="@+id/confirmTxtOrganizationNumber"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -307,7 +307,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName8"
+                        android:id="@+id/confirmTxtAdress"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -319,7 +319,7 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName9"
+                        android:id="@+id/confirmTxtZipCode"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
@@ -331,10 +331,46 @@
                         android:textColor="@color/Black" />
 
                     <EditText
-                        android:id="@+id/txtFirstName10"
+                        android:id="@+id/confirmTxtCity"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="1dp"
+                        android:autoText="false"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName"
+                        android:paddingTop="15dp"
+                        android:textColor="@color/Black" />
+
+                    <EditText
+                        android:id="@+id/confirmTxtPlantName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="67dp"
+                        android:layout_marginRight="10dp"
+                        android:autoText="false"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName"
+                        android:paddingTop="15dp"
+                        android:textColor="@color/Black" />
+
+                    <EditText
+                        android:id="@+id/confirmTxtConferenceRoom"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="10dp"
+                        android:autoText="false"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName"
+                        android:paddingTop="15dp"
+                        android:textColor="@color/Black" />
+
+                    <EditText
+                        android:id="@+id/confirmTxtDateAndTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="10dp"
                         android:autoText="false"
                         android:fontFamily="@font/montserrat"
                         android:inputType="textPersonName"
