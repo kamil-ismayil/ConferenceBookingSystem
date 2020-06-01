@@ -4,24 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.conferencebookingsystem.API.AddBooking;
+import com.conferencebookingsystem.API.AddFoodbeverage;
+import com.conferencebookingsystem.API.ConferenceRoomBook;
 import com.conferencebookingsystem.API.FoodbeverageList;
 import com.conferencebookingsystem.API.TechnologyList;
 import com.conferencebookingsystem.R;
@@ -47,7 +49,6 @@ public class Choice extends AppCompatActivity {
     ScrollView scrollViewChoice;
     TextView textView1, textView2, textView3;
     Button confirm;
-    RelativeLayout relativeLayout;
     LinearLayout linearLayoutV1, linearLayoutV2, linearLayoutV3, linearLayoutH1;
     LinearLayout linearLayoutV4, linearLayoutV5, linearLayoutV6, linearLayoutH2;
     LinearLayout linearLayoutV7, linearLayoutV8, linearLayoutV9, linearLayoutH3;
@@ -61,28 +62,42 @@ public class Choice extends AppCompatActivity {
     HashMap<Integer, String > listOfFoodBeveragePlant, listOfTechnologyRoom;
     HashMap<Integer, String> seatingListHashmap;
 
-    int conferenceRoomNumber, foodbeverageNumber, clickedCheckBoxFoodbeverageIndex, clickedCheckBoxTechnologyIndex, clickedRadioButtonIndex;
-    String chosenPlantId, urlFoodBeverageListPlant, urlTechnology;
-    JSONObject jsonObject;
+    int conferenceRoomNumber, foodbeverageNumber, clickedCheckBoxFoodbeverageIndex, clickedCheckBoxTechnologyIndex,
+            clickedRadioButtonIndex, chosenSeatId, conferenceRoomAvailabilityId, standardSeating;
+    String chosenPlantId, urlFoodBeverageListPlant, urlTechnology, token, timeToServe;
     JSONArray jsonArray;
     AsyncTask<String, Void, String> asyncFoodbeverage;
     AsyncTask<String, Void, String> asyncTechnology;
-
+    AsyncTask<String, Void, String> asyncStandartSeating;
     ArrayList<Integer> chosenTechnologyByUser = new ArrayList<>();
     ArrayList<Integer> chosenFoodBeverageByUser = new ArrayList<>();
+    ArrayList<Integer> clickedRadionButtonIndexArray = new ArrayList<>();
 
     private View.OnClickListener radioButtonListener = new View.OnClickListener(){
         @Override
         public void onClick(View view) {
+
+            asyncStandartSeating = new RestConnectionStandartSeating();
+            asyncStandartSeating.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomstandardseat/conferenceroom/"+conferenceRoomNumber);
+
             for(int i=0; i<radioButtons.length;i++){
                 if(radioButtons[i].getId() == view.getId()){
                     clickedRadioButtonIndex = i;
+                    //System.out.println("clickedRadionButtonIndexArray Length: " + clickedRadionButtonIndexArray.length);
+
+                    if(!clickedRadionButtonIndexArray.isEmpty()){
+                        radioButtons[clickedRadionButtonIndexArray.get(0)].setChecked(false);
+                        clickedRadionButtonIndexArray.clear();
+                    }
+                    clickedRadionButtonIndexArray.add(clickedRadioButtonIndex);
+
 
                     System.out.println("Hashmap: " + seatingListHashmap);
 
                     for(Map.Entry<Integer, String> entry : seatingListHashmap.entrySet()) {
                         if (entry.getValue().equals(seatList.get(clickedRadioButtonIndex))) {
                             System.out.println("The selected radiobutton has an ID: " + entry.getKey());
+                            chosenSeatId = entry.getKey();
                         }
                     }
 
@@ -91,32 +106,38 @@ public class Choice extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener checkBoxFoodbeverageListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-            for(int i=0; i<checkBoxFoodbeverage.length;i++){
-                if(checkBoxFoodbeverage[i].getId() == view.getId()){
-                    clickedCheckBoxFoodbeverageIndex = i;
-                    chosenFoodBeverageByUser.add(checkBoxFoodbeverage[clickedCheckBoxFoodbeverageIndex].getId());
-                    System.out.println("The clicked checkBox has an ID: "+ checkBoxFoodbeverage[clickedCheckBoxFoodbeverageIndex].getId());
-                }
-            }
-        }
-    };
-
-    private View.OnClickListener checkBoxTechnologyListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View view) {
-            for(int i=0; i<checkBoxTechnology.length;i++){
-                if(checkBoxTechnology[i].getId() == view.getId()){
-                    clickedCheckBoxTechnologyIndex = i;
-                    chosenTechnologyByUser.add(checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
-                    System.out.println("The clicked checkBox has an ID: "+ checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
-                }
-            }
-
-        }
-    };
+//    private View.OnClickListener checkBoxFoodbeverageListener = new View.OnClickListener(){
+//        @Override
+//        public void onClick(View view) {
+//            for(int i=0; i<checkBoxFoodbeverage.length;i++){
+//                if(checkBoxFoodbeverage[i].getId() == view.getId()){
+//                    clickedCheckBoxFoodbeverageIndex = i;
+////                        chosenFoodBeverageByUser.add(checkBoxFoodbeverage[clickedCheckBoxFoodbeverageIndex].getId());
+//
+//                }
+//            }
+//        }
+//    };
+//
+//    private View.OnClickListener checkBoxTechnologyListener = new View.OnClickListener(){
+//        @Override
+//        public void onClick(View view) {
+//            for(int i=0; i<checkBoxTechnology.length;i++){
+//                if(checkBoxTechnology[i].getId() == view.getId()){
+//                    clickedCheckBoxTechnologyIndex = i;
+//
+//                    if(chosenTechnologyByUser.size() > 0){
+//                        chosenTechnologyByUser.clear();
+//                    }else {
+//                        chosenTechnologyByUser.add(checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
+//                    }
+//
+//                    System.out.println("The clicked checkBox has an ID: "+ checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
+//                }
+//            }
+//
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,15 +148,22 @@ public class Choice extends AppCompatActivity {
         listOfFoodBeveragePlant = new HashMap<>();
         listOfTechnologyRoom = new HashMap<>();
 
+        SharedPreferences rToken = getSharedPreferences("tokenAPI", MODE_PRIVATE);
+        token = rToken.getString("token", null);
+
         Intent in = getIntent();
         seatList = (ArrayList<String>) in.getSerializableExtra("seatList");
         seatingListHashmap = (HashMap<Integer, String>) in.getSerializableExtra("seatingHashmap");
+        conferenceRoomAvailabilityId = in.getIntExtra("conferenceRoomAvailabilityId", 0);
         System.out.println("The sent over hashmap" + seatingListHashmap);
+
 
         conferenceRoomNumber = in.getIntExtra("roomNumber",0);
         chosenPlantId = in.getStringExtra("plantId");
         urlFoodBeverageListPlant = "https://dev-be.timetomeet.se/service/rest/plantfoodbeverage/venue/" + chosenPlantId;
         urlTechnology = "https://dev-be.timetomeet.se/service/rest/conferenceroomtechnology/conferenceroom/" + conferenceRoomNumber;
+        timeToServe = in.getStringExtra("timeToServe");
+        System.out.println("Hello from Choice class: timeToServe " + timeToServe);
 
         System.out.println(urlFoodBeverageListPlant);
         System.out.println("Hello from Choice class - conf room number: " + conferenceRoomNumber);
@@ -223,11 +251,7 @@ public class Choice extends AppCompatActivity {
                             }
 
                         }
-
                         checkBoxFoodbeverage = new CheckBox[listOfFoodBeveragePlant.size()];
-                        //addChoices(seatList.size(), listOfFoodBeveragePlant.size(),3);
-
-
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -326,32 +350,52 @@ public class Choice extends AppCompatActivity {
 
         textView1 = new TextView(getBaseContext());
         textView1.setText("Seating");
-        textView1.setTypeface(monterrat);
 
         textView2 = new TextView(getBaseContext());
         textView2.setText("Food & Drinks");
-        textView2.setTypeface(monterrat);
 
         textView3 = new TextView(getBaseContext());
         textView3.setText("Technology");
-        textView3.setTypeface(monterrat);
-
-
-        /// hmm
-        relativeLayout = new RelativeLayout(getBaseContext());
-
-        radioGroup = new RadioGroup(getBaseContext());
 
         confirm = new Button(getBaseContext());
+        confirm.setWidth(60);
+        confirm.setHeight(40);
         confirm.setTextSize(10);
         confirm.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
         confirm.setTextColor(Color.BLACK);
         confirm.setTypeface(monterratBold);
-        confirm.setText("Confirm");
+        confirm.setPadding(0,100,0,50);
+
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Choice.this, Confirm.class));
+                AddBooking addBooking = new AddBooking(token);
+                addBooking.startAddBooking();
+
+                ConferenceRoomBook conferenceRoomBook = new ConferenceRoomBook(token, conferenceRoomAvailabilityId, standardSeating);
+                conferenceRoomBook.startConferenceRoomBook();
+                chosenFoodBeverageByUser.clear();
+                chosenTechnologyByUser.clear();
+
+                for(int t=0;t<checkBoxFoodbeverage.length;t++) {
+                    if (checkBoxFoodbeverage[t].isChecked() == true) {
+                        chosenFoodBeverageByUser.add(checkBoxFoodbeverage[t].getId());
+                    }
+                }
+
+                for(int t1=0;t1<checkBoxTechnology.length;t1++) {
+                    if (checkBoxTechnology[t1].isChecked() == true) {
+                        chosenTechnologyByUser.add(checkBoxTechnology[t1].getId());
+                    }
+                }
+
+
+                AddFoodbeverage addFoodbeverage = new AddFoodbeverage(token, conferenceRoomAvailabilityId, chosenFoodBeverageByUser, timeToServe);
+                addFoodbeverage.startAddFoodbeverage();
+
+
+
             }
         });
 
@@ -367,30 +411,22 @@ public class Choice extends AppCompatActivity {
 
         tableLayout.addView(confirm);
 
-
             tableRow1.addView(linearLayoutH1);
-                    // originally
-                //linearLayoutH1.addView(linearLayoutV1);
-                //linearLayoutH1.addView(linearLayoutV2);
-                //linearLayoutH1.addView(linearLayoutV3);
-
-        linearLayoutH1.addView(radioGroup);
+                linearLayoutH1.addView(linearLayoutV1);
+                linearLayoutH1.addView(linearLayoutV2);
+                linearLayoutH1.addView(linearLayoutV3);
 
                 //adding room furniture
                 for(int i=0; i<furnitureNumber; i++){
                     radioButtons[i] = new RadioButton(getBaseContext());
-                    radioButtons[i].setTypeface(monterrat);
                     radioButtons[i].setId(i);
                     radioButtons[i].setText(seatList.get(i));
                     if(i<3){
-                        //linearLayoutV1.addView(radioButtons[i]
-                        radioGroup.addView(radioButtons[i]);
+                        linearLayoutV1.addView(radioButtons[i]);
                     } else if(i>=3 && i<6){
-                        //linearLayoutV2.addView(radioButtons[i]
-                        radioGroup.addView(radioButtons[i]);
+                        linearLayoutV2.addView(radioButtons[i]);
                     }else{
-                        //linearLayoutV1.addView(radioButtons[i]
-                        radioGroup.addView(radioButtons[i]);
+                        linearLayoutV3.addView(radioButtons[i]);
                     }
                 }
 
@@ -406,7 +442,6 @@ public class Choice extends AppCompatActivity {
                 //adding foodbeverage
                 for(int i1=0; i1<foodbeverageNumber; i1++){
                     checkBoxFoodbeverage[i1] = new CheckBox(getBaseContext());
-                    checkBoxFoodbeverage[i1].setTypeface(monterrat);
                     checkBoxFoodbeverage[i1].setId((int) listOfFoodBeveragePlant.keySet().toArray()[i1]);
                     checkBoxFoodbeverage[i1].setText((String) listOfFoodBeveragePlant.values().toArray()[i1]);
 
@@ -419,9 +454,9 @@ public class Choice extends AppCompatActivity {
                     }
                 }
 
-            for(CheckBox checkBox:checkBoxFoodbeverage){
-                checkBox.setOnClickListener(checkBoxFoodbeverageListener);
-            }
+//            for(CheckBox checkBox:checkBoxFoodbeverage){
+//                checkBox.setOnClickListener(checkBoxFoodbeverageListener);
+//            }
 
             //adding technology
             tableRow3.addView(linearLayoutH3);
@@ -431,7 +466,6 @@ public class Choice extends AppCompatActivity {
 
             for(int i1=0; i1<technologyNumber; i1++){
                 checkBoxTechnology[i1] = new CheckBox(getBaseContext());
-                checkBoxTechnology[i1].setTypeface(monterrat);
                 checkBoxTechnology[i1].setId((int) listOfTechnologyRoom.keySet().toArray()[i1]);
                 checkBoxTechnology[i1].setText((String) listOfTechnologyRoom.values().toArray()[i1]);
 
@@ -444,10 +478,78 @@ public class Choice extends AppCompatActivity {
                 }
             }
 
-            for(CheckBox checkBoxT:checkBoxTechnology){
-                checkBoxT.setOnClickListener(checkBoxTechnologyListener);
-            }
+//            for(CheckBox checkBoxT:checkBoxTechnology){
+//                checkBoxT.setOnClickListener(checkBoxTechnologyListener);
+//            }
     }
 
+    public void setStandardSeating(int standardSeating) {
+        this.standardSeating = standardSeating;
+    }
+
+    private class RestConnectionStandartSeating extends AsyncTask<String, Void, String> {
+        private String responseContent;
+        private String Error = null;
+        private URL url;
+
+        private JSONObject jsonObject;
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... requestData) {
+            BufferedReader reader=null;
+
+            try {
+                url = new URL(requestData[0]);
+                System.out.println(url);
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Accept","application/json");
+                connection.setDoOutput(false); // True för POST, PUT. False för GET
+
+                reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = reader.readLine()) != null) {
+                    sb.append(line + "  \n");
+                }
+                responseContent = sb.toString();
+                jsonArray = new JSONArray(responseContent);
+            }
+            catch(Exception ex) {
+                Error = ex.getMessage();
+                System.out.println("The error message is: " + Error);
+            }
+            finally {
+                try {
+                    reader.close();
+                }
+                catch(Exception ex) {
+
+                }
+            }
+            return responseContent;
+        }
+
+        protected void onPostExecute(final String result) {
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    jsonObject = jsonArray.getJSONObject(i);
+                    if((jsonObject.getInt("id")==chosenSeatId) && (jsonObject.getInt("conferenceRoom")==conferenceRoomNumber)) {
+                        standardSeating = jsonObject.getInt("standardSeating");
+                        setStandardSeating(standardSeating);
+                        System.out.println("From inner class: " + standardSeating);
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }

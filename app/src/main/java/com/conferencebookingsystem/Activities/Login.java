@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.conferencebookingsystem.API.CityList;
 import com.conferencebookingsystem.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -27,11 +28,12 @@ public class Login extends AppCompatActivity {
     TextView txtCreateAccount;
     Button btnLogin;
 
-
     private EditText txtPassword;
     private EditText txtUsername;
     AsyncTask<String, Void, String> asyncLoginAPI;
     String token;
+    private SharedPreferences.Editor editor;
+    JSONObject jsonObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +43,14 @@ public class Login extends AppCompatActivity {
         txtUsername = findViewById(R.id.txtUserNamee);
         SharedPreferences userPassword = getSharedPreferences("customerPassword",MODE_PRIVATE);
 
+        SharedPreferences receivedToken = getSharedPreferences("tokenAPI",MODE_PRIVATE);
+        editor = receivedToken.edit();
+
         Button start = (Button)findViewById(R.id.btnLogin);
 
         start.setEnabled(false);
 
         final String password = userPassword.getString("password",null);
-
-        CityList city = new CityList("https://dev-be.timetomeet.se/service/rest/city/",this);
-        city.getCityAPI();
-
-//        Foodbeverage foodbeverage = new Foodbeverage("https://dev-be.timetomeet.se/service/rest/foodbeverage/",this);
-//        foodbeverage.getListofFoodbeverage();
-
-//        Technology technology = new Technology("https://dev-be.timetomeet.se/service/rest/technology/",this);
-//        technology.getTechnologyAPI();
-
 
         // disablar password för användaren
         txtPassword.setEnabled(false);
@@ -109,8 +104,6 @@ public class Login extends AppCompatActivity {
                 "    \"username\": " + "\"" + txtUsername.getText() + "\"," +
                 "    \"password\": " + "\"" + txtPassword.getText() + "\"" +
                 "}";
-        System.out.println("The whole json string is: " + jsonUsernamePassword);
-
         return jsonUsernamePassword;
     }
 
@@ -148,8 +141,8 @@ public class Login extends AppCompatActivity {
                 }
 
                 responseContent = sb.toString();
-                System.out.println("The received token is: " + responseContent);
-                token = responseContent;
+                jsonObject = new JSONObject(responseContent);
+
             }
             catch(Exception ex) {
                 Error = ex.getMessage();
@@ -170,10 +163,15 @@ public class Login extends AppCompatActivity {
 
             if(responseContent != null) {
                 try {
+
+                    token = jsonObject.getString("token");
+                    editor.putString("token", token);
+                    editor.commit();
+
                     Thread.sleep(2000);
                     //Toast.makeText(Login.this, "Please wait!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Login.this, Search.class));
-                } catch (InterruptedException e) {
+                } catch (InterruptedException | JSONException e) {
                     e.printStackTrace();
                 }
             }

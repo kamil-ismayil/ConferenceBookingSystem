@@ -54,7 +54,7 @@ public class Booking extends AppCompatActivity{
     RadioGroup radioGroup;
     RadioButton radioButton1, radioButton2, radioButton3;
 
-    String jsonSearchParam;
+    String jsonSearchParam, timeToServe;
     AsyncTask<String, Void, String> asyncSearchAPI;
     int priceAM, pricePM, conferenceRoomId, conferenceRoomAvailabilityId, priceFull, count=0, buttonIndex,
         clickedRadiobuttonId, countR = 0, countRA = 0, quotient, remainder;
@@ -96,12 +96,16 @@ public class Booking extends AppCompatActivity{
                         }
 
                             conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("id");
-                        System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
+                            timeToServe = conferenceRoomAvailabilityList.get(a).getString("start") + "T" + conferenceRoomAvailabilityList.get(a).getString("hoursAvailableFrom");
+                        System.out.println("TimetoServe is equal: " + timeToServe);
+                            System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
                             startActivity(new Intent(Booking.this, Choice.class)
                                     .putExtra("seatingHashmap", seatingListHashmap)
                                     .putExtra("seatList", seatListString)
                                     .putExtra("plantId", chosenPlantId)
+                                    .putExtra("conferenceRoomAvailabilityId", conferenceRoomAvailabilityId)
                                     .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
+                                    .putExtra("timeToServe",timeToServe)
 
                             );
                     }else if(blockSelected[buttonIndex] == 33){
@@ -109,6 +113,7 @@ public class Booking extends AppCompatActivity{
                             conferenceRoomAvailabilityId = conferenceRoomAvailabilityList.get(a).getInt("cra_id_for_full_day");
                             System.out.println("The conference room availability number: " + conferenceRoomAvailabilityId);
 
+                            timeToServe = conferenceRoomAvailabilityList.get(a).getString("start") + "T" + conferenceRoomAvailabilityList.get(a).getString("hoursAvailableFrom");
                             for(int a2=0; a2<seatListArray.get(buttonIndex).length();a2++){
                                 seatListString.add(seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
                                 //System.out.println("The seats are " + seatListArray.get(buttonIndex).getJSONObject(a2).getString("seat_name"));
@@ -118,8 +123,9 @@ public class Booking extends AppCompatActivity{
                                     .putExtra("seatingHashmap", seatingListHashmap)
                                     .putExtra("seatList", seatListString)
                                     .putExtra("plantId", chosenPlantId)
+                                    .putExtra("conferenceRoomAvailabilityId", conferenceRoomAvailabilityId)
                                     .putExtra("roomNumber",conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom"))
-
+                                    .putExtra("timeToServe",timeToServe)
                             );
 
                             break;
@@ -332,7 +338,6 @@ public class Booking extends AppCompatActivity{
                 clickedRadiobuttonId = checkedId;
                 quotient = checkedId/3;
                 remainder = checkedId%3;
-                System.out.println("The quotient: "+ quotient + ", remainder: " + remainder);
                 switch (remainder){
                     case 0:
                         blockSelected[quotient] = 31;
@@ -416,10 +421,6 @@ public class Booking extends AppCompatActivity{
         radioGroup.addView(radioButton1);
         radioGroup.addView(radioButton2);
         radioGroup.addView(radioButton3);
-
-        // room id och tid
-        //Picasso.get().load("https://dev-be.timetomeet.se/static/crb/media/20190118/DeathtoStock_TheCollaborative-8.jpg").into(imageView);
-
     }
 
 }
