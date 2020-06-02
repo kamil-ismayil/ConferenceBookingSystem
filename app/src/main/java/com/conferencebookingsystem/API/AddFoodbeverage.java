@@ -1,5 +1,7 @@
 package com.conferencebookingsystem.API;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -15,30 +17,41 @@ import javax.net.ssl.HttpsURLConnection;
 public class AddFoodbeverage {
 
     AsyncTask<String, Void, String> asyncAddFoodbeverage;
-    String token;
-    int conferenceRoomAvailabilityNumber, foodBeverageNumber;
+    String token, selectedFoodBeverageID, guestAmount;
+    int conferenceRoomAvailabilityNumber;
     String timeToServe;
     ArrayList<Integer> selectedFoodBeverageIDs;
+    SharedPreferences guests;
 
-    public AddFoodbeverage(String token, int conferenceRoomAvailabilityNumber, ArrayList<Integer> selectedFoodBeverageIDs, String timeToServe) {
+
+
+    public AddFoodbeverage(Context context, String token, int conferenceRoomAvailabilityNumber, ArrayList<Integer> selectedFoodBeverageIDs, String timeToServe) {
         this.token = token;
         this.conferenceRoomAvailabilityNumber = conferenceRoomAvailabilityNumber;
         this.timeToServe = timeToServe;
         this.selectedFoodBeverageIDs = selectedFoodBeverageIDs;
+        guests = context.getSharedPreferences("guests",Context.MODE_PRIVATE);
+        guestAmount = guests.getString("guestNumber", null);
+
 //        System.out.println("AddFoodBeverage class: selected foodbeverage size - " + this.selectedFoodBeverageIDs.size());
 //        System.out.println("AddFoodBeverage class: selected foodbeverage list - " + this.selectedFoodBeverageIDs);
     }
 
     public void startAddFoodbeverage(){
-        asyncAddFoodbeverage = new RestConnectionAddFoodbeverage();
-        asyncAddFoodbeverage.execute("https://dev-be.timetomeet.se/service/rest/bookingfoodbeverage/add/", jsonParam());
+
+
+        for(int a=0; a<selectedFoodBeverageIDs.size(); a++) {
+            selectedFoodBeverageID = selectedFoodBeverageIDs.get(a).toString();
+            asyncAddFoodbeverage = new RestConnectionAddFoodbeverage();
+            asyncAddFoodbeverage.execute("https://dev-be.timetomeet.se/service/rest/bookingfoodbeverage/add/", jsonParam());
+        }
     }
 
     private String jsonParam(){
         String jsonParam = "{" +
                 "    \"conferenceRoomAvailability\": " + conferenceRoomAvailabilityNumber + "," +
-                "    \"foodBeverage\":" + selectedFoodBeverageIDs.get(0) + "," +
-                "    \"amount\":" + 1 + "," +
+                "    \"foodBeverage\":" + selectedFoodBeverageID + "," +
+                "    \"amount\":" + guestAmount + "," +
                 "    \"comment\":\"test test test\","  +
                 "    \"timeToServe\": \"" + timeToServe + "\""+
                 "}";
@@ -60,7 +73,6 @@ public class AddFoodbeverage {
 
             try {
                 url = new URL(requestData[0]);
-                System.out.println("The URL: " + url);
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json");

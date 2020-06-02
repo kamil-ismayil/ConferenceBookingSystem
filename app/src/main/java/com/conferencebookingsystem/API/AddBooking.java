@@ -15,12 +15,17 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class AddBooking {
     AsyncTask<String, Void, String> asyncAddBooking;
-    String token;
+    String token, guestAmount;
+    SharedPreferences guests;
 
-    public AddBooking(String token) {
+    public AddBooking(Context context, String token) {
 
 //        SharedPreferences rToken = context.getSharedPreferences("tokenAPI", context.MODE_PRIVATE);
 //        this.token = rToken.getString("token", null);
+        guests = context.getSharedPreferences("guests",Context.MODE_PRIVATE);
+        guestAmount = guests.getString("guestNumber", null);
+
+        System.out.println("AddBooking class: guestAmount " + guestAmount);
         this.token = token;
         System.out.println("AddBooking - The received token: " + token);
     }
@@ -36,7 +41,7 @@ public class AddBooking {
                 "    \"wantHotelRoomInfo\": true," +
                 "    \"wantActivityInfo\": true," +
                 "    \"specialRequest\": \"\"," +
-                "    \"numberOfParticipants\": 2," +
+                "    \"numberOfParticipants\":" + guestAmount + "," +
                 "    \"bookingSourceSystem\": 1," +
                 "    \"agreementNumber\": \"\"" +
                 "}";

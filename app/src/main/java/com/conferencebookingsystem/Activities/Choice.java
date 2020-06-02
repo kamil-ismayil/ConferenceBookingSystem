@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.conferencebookingsystem.API.AddBooking;
 import com.conferencebookingsystem.API.AddFoodbeverage;
+import com.conferencebookingsystem.API.AddTechnology;
 import com.conferencebookingsystem.API.ConferenceRoomBook;
 import com.conferencebookingsystem.API.FoodbeverageList;
 import com.conferencebookingsystem.API.TechnologyList;
@@ -105,39 +106,6 @@ public class Choice extends AppCompatActivity {
             }
         }
     };
-
-//    private View.OnClickListener checkBoxFoodbeverageListener = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View view) {
-//            for(int i=0; i<checkBoxFoodbeverage.length;i++){
-//                if(checkBoxFoodbeverage[i].getId() == view.getId()){
-//                    clickedCheckBoxFoodbeverageIndex = i;
-////                        chosenFoodBeverageByUser.add(checkBoxFoodbeverage[clickedCheckBoxFoodbeverageIndex].getId());
-//
-//                }
-//            }
-//        }
-//    };
-//
-//    private View.OnClickListener checkBoxTechnologyListener = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View view) {
-//            for(int i=0; i<checkBoxTechnology.length;i++){
-//                if(checkBoxTechnology[i].getId() == view.getId()){
-//                    clickedCheckBoxTechnologyIndex = i;
-//
-//                    if(chosenTechnologyByUser.size() > 0){
-//                        chosenTechnologyByUser.clear();
-//                    }else {
-//                        chosenTechnologyByUser.add(checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
-//                    }
-//
-//                    System.out.println("The clicked checkBox has an ID: "+ checkBoxTechnology[clickedCheckBoxTechnologyIndex].getId());
-//                }
-//            }
-//
-//        }
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -361,9 +329,10 @@ public class Choice extends AppCompatActivity {
         textView3.setTypeface(monterrat);
 
         confirm = new Button(getBaseContext());
-        confirm.setWidth(120);
-        confirm.setHeight(60);
-        confirm.setTextSize(12);
+        confirm.setWidth(60);
+        confirm.setHeight(40);
+        confirm.setTextSize(10);
+        confirm.setText("Confirm");
         confirm.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
         confirm.setTextColor(Color.BLACK);
         confirm.setTypeface(monterratBold);
@@ -372,11 +341,12 @@ public class Choice extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddBooking addBooking = new AddBooking(token);
+                AddBooking addBooking = new AddBooking(getBaseContext(), token);
                 addBooking.startAddBooking();
 
                 ConferenceRoomBook conferenceRoomBook = new ConferenceRoomBook(token, conferenceRoomAvailabilityId, standardSeating);
                 conferenceRoomBook.startConferenceRoomBook();
+
                 chosenFoodBeverageByUser.clear();
                 chosenTechnologyByUser.clear();
 
@@ -392,11 +362,11 @@ public class Choice extends AppCompatActivity {
                     }
                 }
 
-
-                AddFoodbeverage addFoodbeverage = new AddFoodbeverage(token, conferenceRoomAvailabilityId, chosenFoodBeverageByUser, timeToServe);
+                AddFoodbeverage addFoodbeverage = new AddFoodbeverage(getBaseContext() ,token, conferenceRoomAvailabilityId, chosenFoodBeverageByUser, timeToServe);
                 addFoodbeverage.startAddFoodbeverage();
 
-
+                AddTechnology addTechnology = new AddTechnology(token, conferenceRoomAvailabilityId, chosenTechnologyByUser);
+                addTechnology.startAddTechnology();
 
             }
         });

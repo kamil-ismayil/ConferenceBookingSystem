@@ -6,6 +6,7 @@ import androidx.core.content.res.ResourcesCompat;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -73,11 +74,16 @@ public class Search extends AppCompatActivity {
     AsyncTask<String, Void, String> asyncSearchAPI;
     private RequestQueue requestQueue;
     int ii, aa=0, clickedButtonId;
+    private SharedPreferences numberOfPeople;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        numberOfPeople = getSharedPreferences("guests",MODE_PRIVATE);
+        editor = numberOfPeople.edit();
 
         spinner = findViewById(R.id.CitySearch);
         tableLayout = findViewById(R.id.tableLayout);
@@ -108,11 +114,7 @@ public class Search extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedPlantId = null;
-                if (DataHolder.getPeople() == null) {
-                    DataHolder.setPeople("5");
-                } else {
-                    DataHolder.setPeople(seats.getText().toString());
-                }
+                DataHolder.setPeople(seats.getText().toString());
                 asyncSearchAPI = new RestConnectionSearch();
                 asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
                 System.out.println("The string value is: " + jsonSearchParam());
@@ -420,6 +422,9 @@ public class Search extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            editor.putString("guestNumber",DataHolder.getPeople());
+                            editor.commit();
 
                             startActivity(new Intent(Search.this, Booking.class)
                                     .putExtra("searchParam",jsonSearchParam())
