@@ -44,347 +44,160 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#EDF0EC"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/textView25"
                 android:layout_width="match_parent"
-                android:layout_height="900dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:text="Confirmation"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                android:gravity="center"/>
 
-                <LinearLayout
-                    android:layout_width="180dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="Date &amp; time"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"
+                android:layout_gravity="center" />
 
-                    <TextView
-                        android:id="@+id/textView20"
-                        android:layout_width="170dp"
-                        android:layout_height="35dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Confirmation"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+            <TableRow
+                android:id="@+id/txtDateAndTime"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/table_divider">
 
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="150dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Your information"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="TextView" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="First name" />
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:text="Booking information"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"
+                />
 
-                    <TextView
-                        android:id="@+id/textView21"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Last name" />
+            <TableRow
+                android:id="@+id/txtBooking"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/table_divider">
 
-                    <TextView
-                        android:id="@+id/textView22"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Email" />
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="TextView" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/textView23"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Phone No" />
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:text="Room price"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/textView24"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Company name" />
+            <TableRow
+                android:id="@+id/txtRoom"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/table_divider">
 
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Organisation No" />
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="TextView" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/textView26"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Address" />
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:text="Addons price"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/textView27"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Zip code" />
+            <TableRow
+                android:id="@+id/txtAddons"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/table_divider">
 
-                    <TextView
-                        android:id="@+id/textView28"
-                        android:layout_width="120dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="City" />
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="TextView" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/textView19"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Your booking"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:text="Confirmation status"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/textView29"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Plant name" />
+            <TableRow
+                android:id="@+id/txtStatus"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/table_divider">
 
-                    <TextView
-                        android:id="@+id/textView30"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Conference room" />
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="TextView" />
+            </TableRow>
 
-                    <TextView
-                        android:id="@+id/textView31"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Date and time" />
-
-                    <TextView
-                        android:id="@+id/textView32"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="30dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="Payment terms"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textView33"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/montserrat"
-                        android:gravity="center_vertical"
-                        android:text="Payment is made directly to the plant" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/confirmTxtFirstName2"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="100dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtLastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtCompanyName"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtOrganizationNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtAdress"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtZipCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtCity"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="1dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtPlantName"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="67dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtConferenceRoom"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                    <EditText
-                        android:id="@+id/confirmTxtDateAndTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginRight="10dp"
-                        android:autoText="false"
-                        android:fontFamily="@font/montserrat"
-                        android:inputType="textPersonName"
-                        android:paddingTop="15dp"
-                        android:textColor="@color/Black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+            <Button
+                android:id="@+id/btnVerify"
+                android:layout_width="148dp"
+                android:layout_height="50dp"
+                android:text="Verify"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"
+                android:background="#5BD744"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"/>
         </LinearLayout>
     </ScrollView>
 

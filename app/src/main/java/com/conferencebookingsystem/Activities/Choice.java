@@ -350,22 +350,24 @@ public class Choice extends AppCompatActivity {
 
         textView1 = new TextView(getBaseContext());
         textView1.setText("Seating");
+        textView1.setTypeface(monterrat);
 
         textView2 = new TextView(getBaseContext());
         textView2.setText("Food & Drinks");
+        textView2.setTypeface(monterrat);
 
         textView3 = new TextView(getBaseContext());
         textView3.setText("Technology");
+        textView3.setTypeface(monterrat);
 
         confirm = new Button(getBaseContext());
-        confirm.setWidth(60);
-        confirm.setHeight(40);
-        confirm.setTextSize(10);
+        confirm.setWidth(120);
+        confirm.setHeight(60);
+        confirm.setTextSize(12);
         confirm.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
         confirm.setTextColor(Color.BLACK);
         confirm.setTypeface(monterratBold);
-        confirm.setPadding(0,100,0,50);
-
+        confirm.setText("Confirm");
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -421,6 +423,7 @@ public class Choice extends AppCompatActivity {
                     radioButtons[i] = new RadioButton(getBaseContext());
                     radioButtons[i].setId(i);
                     radioButtons[i].setText(seatList.get(i));
+                    radioButtons[i].setTypeface(monterrat);
                     if(i<3){
                         linearLayoutV1.addView(radioButtons[i]);
                     } else if(i>=3 && i<6){
@@ -435,8 +438,8 @@ public class Choice extends AppCompatActivity {
                 }
 
             tableRow2.addView(linearLayoutH2);
-                linearLayoutH2.addView(linearLayoutV4);
-                linearLayoutH2.addView(linearLayoutV5);
+                //linearLayoutH2.addView(linearLayoutV4);
+                //linearLayoutH2.addView(linearLayoutV5);
                 linearLayoutH2.addView(linearLayoutV6);
 
                 //adding foodbeverage
@@ -444,11 +447,12 @@ public class Choice extends AppCompatActivity {
                     checkBoxFoodbeverage[i1] = new CheckBox(getBaseContext());
                     checkBoxFoodbeverage[i1].setId((int) listOfFoodBeveragePlant.keySet().toArray()[i1]);
                     checkBoxFoodbeverage[i1].setText((String) listOfFoodBeveragePlant.values().toArray()[i1]);
+                    checkBoxFoodbeverage[i1].setTypeface(monterrat);
 
                     if(i1<3){
-                        linearLayoutV4.addView(checkBoxFoodbeverage[i1]);
+                        linearLayoutV6.addView(checkBoxFoodbeverage[i1]);
                     } else if(i1>=3 && i1<6){
-                        linearLayoutV5.addView(checkBoxFoodbeverage[i1]);
+                        linearLayoutV6.addView(checkBoxFoodbeverage[i1]);
                     }else{
                         linearLayoutV6.addView(checkBoxFoodbeverage[i1]);
                     }
@@ -460,19 +464,20 @@ public class Choice extends AppCompatActivity {
 
             //adding technology
             tableRow3.addView(linearLayoutH3);
-            linearLayoutH3.addView(linearLayoutV7);
-            linearLayoutH3.addView(linearLayoutV8);
+            //linearLayoutH3.addView(linearLayoutV7);
+            //linearLayoutH3.addView(linearLayoutV8);
             linearLayoutH3.addView(linearLayoutV9);
 
             for(int i1=0; i1<technologyNumber; i1++){
                 checkBoxTechnology[i1] = new CheckBox(getBaseContext());
                 checkBoxTechnology[i1].setId((int) listOfTechnologyRoom.keySet().toArray()[i1]);
                 checkBoxTechnology[i1].setText((String) listOfTechnologyRoom.values().toArray()[i1]);
+                checkBoxTechnology[i1].setTypeface(monterrat);
 
                 if(i1<3){
-                    linearLayoutV7.addView(checkBoxTechnology[i1]);
+                    linearLayoutV9.addView(checkBoxTechnology[i1]);
                 } else if(i1>=3 && i1<6){
-                    linearLayoutV8.addView(checkBoxTechnology[i1]);
+                    linearLayoutV9.addView(checkBoxTechnology[i1]);
                 }else{
                     linearLayoutV9.addView(checkBoxTechnology[i1]);
                 }

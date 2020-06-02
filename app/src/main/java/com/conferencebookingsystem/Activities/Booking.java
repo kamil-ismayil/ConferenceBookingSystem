@@ -296,7 +296,7 @@ public class Booking extends AppCompatActivity{
 
         linearLayoutV = new LinearLayout(getBaseContext());
         linearLayoutV.setOrientation(LinearLayout.VERTICAL);
-        linearLayoutV.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
+        linearLayoutV.setLayoutParams(new ScrollView.LayoutParams(550, TableLayout.LayoutParams.WRAP_CONTENT));
 
         linearLayoutV1 = new LinearLayout(getBaseContext());
         linearLayoutV1.setOrientation(LinearLayout.VERTICAL);
