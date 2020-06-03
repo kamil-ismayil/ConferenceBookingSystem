@@ -258,7 +258,7 @@ public class Choice extends AppCompatActivity {
         }
 
     }
-
+        // Nusret och Kamil
     public void addChoices(int furnitureNumber,int foodbeverageNumber, int technologyNumber) {
         tableLayout.removeAllViews();
 

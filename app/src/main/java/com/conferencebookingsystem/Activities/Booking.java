@@ -270,7 +270,7 @@ public class Booking extends AppCompatActivity{
             }
         }
     }
-
+            // Nusret och Kamil
     public void addElements() throws JSONException, InterruptedException {
         //tableLayout.removeAllViews();
         aaa++;
@@ -334,7 +334,7 @@ public class Booking extends AppCompatActivity{
         textViewDescription.setTextColor(Color.BLACK);
 
         radioGroup = new RadioGroup(getBaseContext());
-        radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
+        radioGroup.setLayoutParams(new ScrollView.LayoutParams(250, TableLayout.LayoutParams.WRAP_CONTENT));
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override

@@ -339,7 +339,7 @@ public class Search extends AppCompatActivity {
 
             return responseContent;
         }
-
+                // Nusret och Kamil
         protected void onPostExecute(final String result) {
 
             tableLayout.removeAllViews();
