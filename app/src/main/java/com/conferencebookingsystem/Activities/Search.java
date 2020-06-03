@@ -386,7 +386,7 @@ public class Search extends AppCompatActivity {
                     imageView.setMaxHeight(200);
 
                     textViewPrice = new TextView(getBaseContext());
-                    textViewPrice.setWidth(130);
+                    textViewPrice.setWidth(150);
                     textViewPrice.setHeight(180);
                     textViewPrice.setTextColor(Color.BLACK);
                     textViewPrice.setTypeface(monterrat);
