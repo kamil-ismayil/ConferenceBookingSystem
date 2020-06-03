@@ -54,7 +54,8 @@
                 android:gravity="center"
                 android:text="Confirmation"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
 
             <TextView
                 android:id="@+id/textView20"
@@ -65,7 +66,8 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Date &amp; time"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
 
             <TableRow
                 android:layout_width="350dp"
@@ -78,7 +80,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="TextView" />
+                    android:text=""
+                    android:textColor="@color/Black"/>
             </TableRow>
 
             <TextView
@@ -90,7 +93,8 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Booking information"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
 
             <TableRow
                 android:layout_width="350dp"
@@ -103,7 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="TextView" />
+                    android:text=""
+                    android:textColor="@color/Black"/>
             </TableRow>
 
             <TextView
@@ -115,7 +120,8 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Total price"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
 
             <TableRow
                 android:layout_width="350dp"
@@ -128,7 +134,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="TextView" />
+                    android:text=""
+                    android:textColor="@color/Black" />
             </TableRow>
 
             <TextView
@@ -140,7 +147,8 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Confirmation status"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/Black"/>
 
             <TableRow
                 android:layout_width="350dp"
@@ -153,7 +161,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="TextView" />
+                    android:text=""
+                    android:textColor="@color/Black"/>
             </TableRow>
 
             <Button

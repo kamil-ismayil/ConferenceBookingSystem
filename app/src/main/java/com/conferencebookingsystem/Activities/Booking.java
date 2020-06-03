@@ -320,14 +320,18 @@ public class Booking extends AppCompatActivity{
 
         textViewTime1 = new TextView(getBaseContext());
         textViewTime1.setTypeface(monterrat);
+        textViewTime1.setTextColor(Color.BLACK);
         textViewTime2 = new TextView(getBaseContext());
         textViewTime2.setTypeface(monterrat);
+        textViewTime2.setTextColor(Color.BLACK);
         textViewTime3 = new TextView(getBaseContext());
         textViewTime3.setTypeface(monterrat);
         textViewTime3.setText("HELDAG");
+        textViewTime3.setTextColor(Color.BLACK);
 
         textViewDescription.setText(conferenceRoomDescription);
         textViewDescription.setTypeface(monterrat);
+        textViewDescription.setTextColor(Color.BLACK);
 
         radioGroup = new RadioGroup(getBaseContext());
         radioGroup.setLayoutParams(new ScrollView.LayoutParams(400, TableLayout.LayoutParams.WRAP_CONTENT));
@@ -356,26 +360,32 @@ public class Booking extends AppCompatActivity{
         radioButton1.setId(countR++);
         radioButton1.setText(priceAM + " kr");
         radioButton1.setTypeface(monterrat);
+        radioButton1.setTextColor(Color.BLACK);
         radioButton1.setPadding(0,0,0,38);
 
         radioButton2 = new RadioButton(getBaseContext());
         radioButton2.setId(countR++);
         radioButton2.setText(pricePM + " kr");
         radioButton2.setTypeface(monterrat);
+        radioButton2.setTextColor(Color.BLACK);
         radioButton2.setPadding(0,0,0,38);
 
         radioButton3 = new RadioButton(getBaseContext());
         radioButton3.setId(countR++);
         radioButton3.setText(priceFull + " kr");
         radioButton3.setTypeface(monterrat);
+        radioButton3.setTextColor(Color.BLACK);
 
 
         textViewPrice1 = new TextView(getBaseContext());
         textViewPrice1.setTypeface(monterrat);
+        textViewPrice1.setTextColor(Color.BLACK);
         textViewPrice2 = new TextView(getBaseContext());
         textViewPrice2.setTypeface(monterrat);
+        textViewPrice2.setTextColor(Color.BLACK);
         textViewPrice3 = new TextView(getBaseContext());
         textViewPrice3.setTypeface(monterrat);
+        textViewPrice3.setTextColor(Color.BLACK);
 
         tableLayout.addView(linearLayoutV2);
         linearLayoutV2.addView(tableRow1);

@@ -99,9 +99,9 @@ public class Login extends AppCompatActivity {
     }
 
     private String jsonUsernamePassword(){
-
+        String zx = "z_";
         String jsonUsernamePassword ="{" +
-                "    \"username\": " + "\"" + txtUsername.getText() + "\"," +
+                "    \"username\": " + "\"" + zx + txtUsername.getText() + "\"," +
                 "    \"password\": " + "\"" + txtPassword.getText() + "\"" +
                 "}";
         return jsonUsernamePassword;

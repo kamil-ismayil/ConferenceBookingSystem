@@ -122,7 +122,7 @@ public class Confirm extends AppCompatActivity {
                     blockDescription = booking_details.getString("blockDescription");
                 numberOfParticipants = jsonObject.getString("number_of_participants");
 
-                textViewDateAndTime.setText(arrivalDate + "\n" + blockDescription + arrivalTime + departTime
+                textViewDateAndTime.setText(arrivalDate + "\n" + blockDescription + ": " + arrivalTime + "-" + departTime
                         + "\n" + "People: " + numberOfParticipants);
 
                 name = jsonObject.getString("personFirstName");
@@ -132,7 +132,7 @@ public class Confirm extends AppCompatActivity {
                 JSONObject bookedByPerson = jsonObject.getJSONObject("booked_by_person");
                 organisation = bookedByPerson.getString("books_for_organization");
 
-                textViewBookingInformation.setText("Bookingnumber: " + bookingNumber +"\n" + "Name: " + name
+                textViewBookingInformation.setText("Bookingnumber: " + bookingNumber +"\n" + "Name: " + name + "\n"
                         + "Lastname: " + lastname + "\n" + "Organisation: " + organisation);
 
 

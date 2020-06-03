@@ -319,14 +319,17 @@ public class Choice extends AppCompatActivity {
         textView1 = new TextView(getBaseContext());
         textView1.setText("Seating");
         textView1.setTypeface(monterrat);
+        textView1.setTextColor(Color.BLACK);
 
         textView2 = new TextView(getBaseContext());
         textView2.setText("Food & Drinks");
         textView2.setTypeface(monterrat);
+        textView2.setTextColor(Color.BLACK);
 
         textView3 = new TextView(getBaseContext());
         textView3.setText("Technology");
         textView3.setTypeface(monterrat);
+        textView3.setTextColor(Color.BLACK);
 
         confirm = new Button(getBaseContext());
         confirm.setWidth(60);
@@ -396,6 +399,7 @@ public class Choice extends AppCompatActivity {
                     radioButtons[i].setId(i);
                     radioButtons[i].setText(seatList.get(i));
                     radioButtons[i].setTypeface(monterrat);
+                    radioButtons[i].setTextColor(Color.BLACK);
                     if(i<3){
                         linearLayoutV1.addView(radioButtons[i]);
                     } else if(i>=3 && i<6){
@@ -420,6 +424,7 @@ public class Choice extends AppCompatActivity {
                     checkBoxFoodbeverage[i1].setId((int) listOfFoodBeveragePlant.keySet().toArray()[i1]);
                     checkBoxFoodbeverage[i1].setText((String) listOfFoodBeveragePlant.values().toArray()[i1]);
                     checkBoxFoodbeverage[i1].setTypeface(monterrat);
+                    checkBoxFoodbeverage[i1].setTextColor(Color.BLACK);
 
                     if(i1<3){
                         linearLayoutV6.addView(checkBoxFoodbeverage[i1]);
@@ -445,6 +450,7 @@ public class Choice extends AppCompatActivity {
                 checkBoxTechnology[i1].setId((int) listOfTechnologyRoom.keySet().toArray()[i1]);
                 checkBoxTechnology[i1].setText((String) listOfTechnologyRoom.values().toArray()[i1]);
                 checkBoxTechnology[i1].setTypeface(monterrat);
+                checkBoxTechnology[i1].setTextColor(Color.BLACK);
 
                 if(i1<3){
                     linearLayoutV9.addView(checkBoxTechnology[i1]);
