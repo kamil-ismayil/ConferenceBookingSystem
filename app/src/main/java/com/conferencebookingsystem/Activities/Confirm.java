@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.conferencebookingsystem.API.AddFoodbeverage;
 import com.conferencebookingsystem.R;
 
 import org.json.JSONArray;
@@ -17,14 +16,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class Confirm extends AppCompatActivity {
 
-    TableRow txtDateAndTime, txtBooking, txtRoom, txtAddons, txtStatus;
     TextView textViewDateAndTime, textViewBookingInformation, textViewTPrice, textViewConfirmationStatus;
     AsyncTask<String, Void, String> asyncResult;
     String token, bookingNumber, emailStateText, arrivalDate, arrivalTime, departTime, blockDescription, numberOfParticipants;
@@ -35,12 +32,12 @@ public class Confirm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_confirm);
+        setContentView(R.layout.activity_confirm);
 
-        //textViewDateAndTime = findViewById(R.id.textViewDateAndTime);
-        //textViewBookingInformation = findViewById(R.id.textViewBookingInformation);
-        //textViewTPrice = findViewById(R.id.textViewTPrice);
-        //textViewConfirmationStatus = findViewById(R.id.textViewConfirmationStatus);
+        textViewDateAndTime = findViewById(R.id.textViewDateAndTime);
+        textViewBookingInformation = findViewById(R.id.textViewBookingInformation1);
+        textViewTPrice = findViewById(R.id.textViewTPrice);
+        textViewConfirmationStatus = findViewById(R.id.textViewConfirmationStatus);
 
         SharedPreferences rToken = getSharedPreferences("tokenAPI", MODE_PRIVATE);
         token = rToken.getString("token", null);
