@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@android:color/background_light"
+        android:background="#3C423B"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,11 +21,11 @@
         <ImageView
             android:id="@+id/imageView13"
             android:layout_width="match_parent"
-            android:layout_height="370dp"
+            android:layout_height="320dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="170dp"
             android:layout_marginRight="10dp"
-            android:background="#EDF0EC "
+            android:background="#EDF0EC"
             tools:ignore="VectorDrawableCompat" />
 
         <ImageView
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:text="Search and book"
             android:textColor="#3fb436"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
         <TextView
@@ -59,7 +59,7 @@
             android:gravity="center"
             android:text="conferense rooms"
             android:textColor="#3fb436"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
         <TextView
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:text="online"
             android:textColor="#3fb436"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:textStyle="bold" />
 
     </LinearLayout>
