@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -32,6 +33,7 @@ public class Confirm extends AppCompatActivity {
     String name, lastname, organisation, address, roomName, seating, totalPrice, status;
     JSONObject jsonObject;
     JSONArray jsonArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +124,7 @@ public class Confirm extends AppCompatActivity {
                     blockDescription = booking_details.getString("blockDescription");
                 numberOfParticipants = jsonObject.getString("number_of_participants");
 
+
                 textViewDateAndTime.setText(arrivalDate + "\n" + blockDescription + ": " + arrivalTime + "-" + departTime
                         + "\n" + "People: " + numberOfParticipants);
 
@@ -133,11 +136,12 @@ public class Confirm extends AppCompatActivity {
                 organisation = bookedByPerson.getString("books_for_organization");
 
                 textViewBookingInformation.setText("Bookingnumber: " + bookingNumber +"\n" + "Name: " + name + "\n"
-                        + "Lastname: " + lastname + "\n" + "Organisation: " + organisation);
+                        + "Lastname: " + lastname + "\n" + "Organisation: " + organisation + "Price: " + totalPrice);
 
 
                 JSONObject bookingPlant = jsonObject.getJSONObject("booking_plant");
                 address = bookingPlant.getString("visiting_address");
+
 
                 JSONArray bookedConferenceRoom = jsonObject.getJSONArray("booked_conference_rooms_with_price");
                 for(int i=0; i<bookedConferenceRoom.length(); i++){
@@ -146,8 +150,7 @@ public class Confirm extends AppCompatActivity {
                     seating = j1.getString("chosen_seating");
                 }
 
-                textViewTPrice.setText("Address: " + address + "\n" + "Room name: " + roomName + "\n" + "Seating: " + seating + "\n"
-                                        + "Price: " + totalPrice);
+                textViewTPrice.setText("Address: " + address + "\n" + "Room name: " + roomName + "\n" + "Seating: " + seating);
                 textViewConfirmationStatus.setText(emailStateText);
 
             } catch (JSONException e) {
