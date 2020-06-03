@@ -368,6 +368,8 @@ public class Choice extends AppCompatActivity {
                 AddTechnology addTechnology = new AddTechnology(token, conferenceRoomAvailabilityId, chosenTechnologyByUser);
                 addTechnology.startAddTechnology();
 
+                startActivity(new Intent(Choice.this, Confirm.class));
+
             }
         });
 
