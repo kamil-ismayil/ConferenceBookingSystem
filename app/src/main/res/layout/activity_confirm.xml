@@ -34,8 +34,8 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_width="406dp"
+        android:layout_height="505dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +61,7 @@
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Date &amp; time"
@@ -156,14 +157,14 @@
             </TableRow>
 
             <Button
-                android:id="@+id/btnVerify"
+                android:id="@+id/btnSearch"
                 android:layout_width="148dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="35dp"
                 android:background="#5BD744"
                 android:fontFamily="@font/montserrat"
-                android:text="Verify"
+                android:text="New search"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
