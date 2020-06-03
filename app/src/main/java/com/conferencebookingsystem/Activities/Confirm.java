@@ -2,9 +2,12 @@ package com.conferencebookingsystem.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -22,6 +25,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Confirm extends AppCompatActivity {
 
+    Button changeActivityToSearch;
     TextView textViewDateAndTime, textViewBookingInformation, textViewTPrice, textViewConfirmationStatus;
     AsyncTask<String, Void, String> asyncResult;
     String token, bookingNumber, emailStateText, arrivalDate, arrivalTime, departTime, blockDescription, numberOfParticipants;
@@ -44,6 +48,16 @@ public class Confirm extends AppCompatActivity {
 
         asyncResult = new RestConnectionResult();
         asyncResult.execute("https://dev-be.timetomeet.se/service/rest/booking/completed/");
+
+        //Christian har skrivit den här metoden
+        changeActivityToSearch = findViewById(R.id.btnSearch);
+        changeActivityToSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Confirm.this, Search.class));
+
+            }
+        });
 
     }
 
