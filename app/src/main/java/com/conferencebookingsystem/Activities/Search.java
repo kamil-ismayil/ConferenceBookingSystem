@@ -393,11 +393,11 @@ public class Search extends AppCompatActivity {
                     textViewPrice.setLayoutParams(priceTxt);
 
                     textViewDescription = new TextView(getBaseContext());
-                    textViewDescription.setWidth(1050);
+                    textViewDescription.setWidth(780);
                     textViewDescription.setTextColor(Color.BLACK);
                     textViewDescription.setTypeface(monterrat);
                     textViewDescription.setBackgroundResource(R.drawable.table_divider);
-                    textViewDescription.setLayoutParams(new LinearLayout.LayoutParams(1050, WRAP_CONTENT));
+                    textViewDescription.setLayoutParams(new LinearLayout.LayoutParams(780, WRAP_CONTENT));
 
                     buttonViewPlant = new Button(getBaseContext());
                     buttonViewPlant.getBackground().setColorFilter(0xE65BD744, PorterDuff.Mode.MULTIPLY);
@@ -430,7 +430,7 @@ public class Search extends AppCompatActivity {
                     });
 
                     scrollView = new ScrollView(getBaseContext());
-                    scrollView.setLayoutParams(new ScrollView.LayoutParams(1050, WRAP_CONTENT));
+                    scrollView.setLayoutParams(new ScrollView.LayoutParams(780, WRAP_CONTENT));
 
 
                     tableLayout.addView(tableRow);
