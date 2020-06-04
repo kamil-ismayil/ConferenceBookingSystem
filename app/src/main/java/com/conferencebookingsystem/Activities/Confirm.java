@@ -21,6 +21,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -33,6 +35,7 @@ public class Confirm extends AppCompatActivity {
     String name, lastname, organisation, address, roomName, seating, totalPrice, status;
     JSONObject jsonObject;
     JSONArray jsonArray;
+    List<String> foodBeverage = new ArrayList<>();
 
 
     @Override
@@ -149,8 +152,15 @@ public class Confirm extends AppCompatActivity {
                     seating = j1.getString("chosen_seating");
                 }
 
+                // Nusret
+                JSONArray bookedFoodBeverege = jsonObject.getJSONArray("bookingFoodBeverage");
+                for(int i=0; i<bookedFoodBeverege.length(); i++){
+                    JSONObject jfood = (JSONObject) bookedFoodBeverege.get(i);
+                    foodBeverage.add(jfood.getString("foodBeverageName"));
+                }
 
-                textViewTPrice.setText("Address: " + address + "\n" + "Room name: " + roomName + "\n" + "Seating: " + seating);
+                textViewTPrice.setText("Address: " + address + "\n" + "Room name: " + roomName + "\n" + "Seating: " + seating
+                + "\n" + "Food and Beverage: " + foodBeverage.toString());
                 textViewConfirmationStatus.setText(emailStateText);
 
             } catch (JSONException e) {
