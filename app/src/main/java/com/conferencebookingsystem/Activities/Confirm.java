@@ -136,12 +136,11 @@ public class Confirm extends AppCompatActivity {
                 organisation = bookedByPerson.getString("books_for_organization");
 
                 textViewBookingInformation.setText("Bookingnumber: " + bookingNumber +"\n" + "Name: " + name + "\n"
-                        + "Lastname: " + lastname + "\n" + "Organisation: " + organisation + "Price: " + totalPrice);
+                        + "Lastname: " + lastname + "\n" + "Organisation: " + organisation + "\n" +"Price: " + totalPrice);
 
 
                 JSONObject bookingPlant = jsonObject.getJSONObject("booking_plant");
                 address = bookingPlant.getString("visiting_address");
-
 
                 JSONArray bookedConferenceRoom = jsonObject.getJSONArray("booked_conference_rooms_with_price");
                 for(int i=0; i<bookedConferenceRoom.length(); i++){
@@ -149,6 +148,7 @@ public class Confirm extends AppCompatActivity {
                     roomName = j1.getString("conference_room_title");
                     seating = j1.getString("chosen_seating");
                 }
+
 
                 textViewTPrice.setText("Address: " + address + "\n" + "Room name: " + roomName + "\n" + "Seating: " + seating);
                 textViewConfirmationStatus.setText(emailStateText);
