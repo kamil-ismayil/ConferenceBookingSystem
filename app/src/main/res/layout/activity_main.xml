@@ -25,7 +25,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="170dp"
             android:layout_marginRight="10dp"
-            android:background="#EDF0EC"
+            android:background="#3C423B"
             tools:ignore="VectorDrawableCompat" />
 
         <ImageView
@@ -34,7 +34,7 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="-290dp"
-            android:background="#EDF0EC "
+            android:background="#3C423B"
             app:srcCompat="@drawable/ttmlogo" />
 
         <TextView
