@@ -59,6 +59,8 @@
                         android:id="@+id/textView"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
                         android:text="All fields are mandatory" />
 
                     <LinearLayout
@@ -69,9 +71,8 @@
 
                         <LinearLayout
                             android:layout_width="103dp"
-                            android:layout_height="545dp"
+                            android:layout_height="600dp"
                             android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:orientation="vertical">
 
@@ -79,7 +80,7 @@
                                 android:id="@+id/textView6"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
-                                android:layout_marginTop="20dp"
+                                android:layout_marginTop="10dp"
                                 android:fontFamily="@font/montserrat"
                                 android:gravity="center_vertical"
                                 android:paddingTop="10dp"
@@ -191,8 +192,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="545dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_height="600dp"
                             android:layout_marginBottom="10dp"
                             android:orientation="vertical">
 
@@ -200,7 +200,7 @@
                                 android:id="@+id/txtFirstName"
                                 android:layout_width="match_parent"
                                 android:layout_height="49dp"
-                                android:layout_marginTop="18dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginRight="10dp"
                                 android:autoText="false"
                                 android:ems="10"
