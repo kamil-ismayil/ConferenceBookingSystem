@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -72,7 +73,6 @@ public class Search extends AppCompatActivity {
     private TextView Date;
     private DatePickerDialog.OnDateSetListener DateListener;
     AsyncTask<String, Void, String> asyncSearchAPI;
-    private RequestQueue requestQueue;
     int ii, aa=0, clickedButtonId;
     private SharedPreferences numberOfPeople;
     private SharedPreferences.Editor editor;
@@ -90,8 +90,6 @@ public class Search extends AppCompatActivity {
         scrollView = findViewById(R.id.scrollView);
         buttonSearch = findViewById(R.id.SearchButton);
         Date = (TextView) findViewById(R.id.Date);
-        //asyncSearchAPI = new RestConnectionSearch();
-        requestQueue = Volley.newRequestQueue(this);
         seats = findViewById(R.id.People);
 
         // current date
@@ -116,7 +114,13 @@ public class Search extends AppCompatActivity {
                 selectedPlantId = null;
                 DataHolder.setPeople(seats.getText().toString());
                 asyncSearchAPI = new RestConnectionSearch();
-                asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam());
+                try {
+                    asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam()).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("The string value is: " + jsonSearchParam());
             }
 

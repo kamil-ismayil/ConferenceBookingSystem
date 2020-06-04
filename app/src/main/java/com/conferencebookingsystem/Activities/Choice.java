@@ -57,7 +57,7 @@ public class Choice extends AppCompatActivity {
     RadioButton radioButton;
     TableLayout tableLayout;
     TableRow tableRow1, tableRow2, tableRow3;
-    ArrayList<String> seatList;
+    ArrayList<String> seatList = new ArrayList<>();
     HashMap<Integer, String> listOfFoodBeverageAll = new HashMap<>();
     HashMap<Integer, String> listOfTechnologyAll = new HashMap<>();
     HashMap<Integer, String > listOfFoodBeveragePlant, listOfTechnologyRoom;
@@ -120,6 +120,7 @@ public class Choice extends AppCompatActivity {
         token = rToken.getString("token", null);
 
         Intent in = getIntent();
+        seatList.clear();
         seatList = (ArrayList<String>) in.getSerializableExtra("seatList");
         seatingListHashmap = (HashMap<Integer, String>) in.getSerializableExtra("seatingHashmap");
         conferenceRoomAvailabilityId = in.getIntExtra("conferenceRoomAvailabilityId", 0);
@@ -404,7 +405,7 @@ public class Choice extends AppCompatActivity {
                         linearLayoutV1.addView(radioButtons[i]);
                     } else if(i>=3 && i<6){
                         linearLayoutV2.addView(radioButtons[i]);
-                    }else{
+                    }else {
                         linearLayoutV3.addView(radioButtons[i]);
                     }
                 }

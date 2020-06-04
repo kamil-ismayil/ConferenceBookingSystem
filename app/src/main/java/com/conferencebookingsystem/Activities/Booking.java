@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -85,6 +86,7 @@ public class Booking extends AppCompatActivity{
                 }
             }
             try {
+                seatListString.clear();
                 for(int a=0; a<conferenceRoomAvailabilityList.size(); a++) {
                     if ((conferenceRoomAvailabilityList.get(a).getInt("block") == blockSelected[buttonIndex]) &&
                         (conferenceRoomAvailabilityList.get(a).getInt("conferenceRoom") == conferenceRoomIds[buttonIndex])) {
@@ -153,7 +155,13 @@ public class Booking extends AppCompatActivity{
         chosenPlantId = in.getStringExtra("plantId");
         count = 0;
         asyncSearchAPI = new RestConnectionSearch();
-        asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam);
+        try {
+            asyncSearchAPI.execute("https://dev-be.timetomeet.se/service/rest/conferenceroomavailability/search/",jsonSearchParam).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
